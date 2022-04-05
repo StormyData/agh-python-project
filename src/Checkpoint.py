@@ -1,5 +1,5 @@
-from LevelObject import LevelObject
-from Player import Player
+from src.LevelObject import LevelObject
+from src.Player import Player
 
 
 class Checkpoint(LevelObject):

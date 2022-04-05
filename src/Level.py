@@ -1,8 +1,10 @@
 from pygame import Surface
-from LevelObject import LevelObject
+
+from src.LevelObject import LevelObject
+
 
 class Level:
-    def __init__(self, objects : [LevelObject]):
+    def __init__(self, objects: [LevelObject]):
         self.objects = objects
 
     def update(self, dt: float):
@@ -10,4 +12,3 @@ class Level:
 
     def draw(self, surface: Surface):
         pass
-    

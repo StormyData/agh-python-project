@@ -1,7 +1,8 @@
-from LevelObject import LevelObject
 from pygame import Surface
-from Vector import Vector
-from Collider import Collider
+
+from src.Collider import Collider
+from src.LevelObject import LevelObject
+from src.Vector import Vector
 
 
 class Platform(LevelObject):

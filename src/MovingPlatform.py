@@ -1,4 +1,4 @@
-from Platform import Platform
+from src.Platform import Platform
 
 
 class MovingPlatform(Platform):
