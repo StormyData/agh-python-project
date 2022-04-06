@@ -2,4 +2,5 @@
 <assets>
     <img name="grass0" path="assets/grass0.png" from="https://opengameart.org/content/hand-painted-grass-texture"/>
     <img name="wall0" path="assets/wall0.jpg" from="https://opengameart.org/content/black-brick-wall-512px"/>
+    <img name="sky0" path="assets/sky.png" from="https://opengameart.org/content/starsspace-background"/>
 </assets>

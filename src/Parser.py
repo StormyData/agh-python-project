@@ -6,6 +6,7 @@ from src.Vector import Vector
 
 vector_scale = 16
 
+
 class ParseError(Exception):
     pass
 
@@ -19,6 +20,9 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
     root = tree.getroot()
     if root.tag != "level":
         raise ParseError("root node is not level")
+    bg = None
+    if 'background' in root.attrib:
+        bg = root.attrib['background']
     # if 'name' not in root.attrib:
     #    raise ParseError("level doesn't have a name")
     # name = root.attrib['name']
@@ -29,7 +33,7 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
                 contents.add(_parse_platform(child))
             case _:
                 raise ParseError("unknown level element")
-    return Level(contents)
+    return Level(contents, bg)
 
 
 def _parse_platform(element: ETree.Element) -> Platform:
@@ -52,6 +56,6 @@ def _parse_vector(val: str) -> Vector:
     if len(tab) != 2:
         raise ParseError(f"vector must be a pair of floats separated by a ',' not {val}")
     x, y = tab
-    x = vector_scale*float(x)
-    y = vector_scale*float(y)
+    x = vector_scale * float(x)
+    y = vector_scale * float(y)
     return Vector(x, y)
