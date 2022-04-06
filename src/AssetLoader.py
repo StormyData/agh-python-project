@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ETree
 from pygame import Surface,image
 
-from src.Parser import ParseError
 
 class AssetLoader:
     _instance = None
@@ -20,14 +19,14 @@ class AssetLoader:
         tree = ETree.parse(fp)
         root = tree.getroot()
         if root.tag != "assets":
-            raise ParseError("root must be named assets")
+            raise ValueError("root must be named assets")
         for child in root:
             match child.tag:
                 case "img":
                     if 'path' not in child.attrib:
-                        raise ParseError("img is missing attribute: path")
+                        raise ValueError("img is missing attribute: path")
                     if 'name' not in child.attrib:
-                        raise ParseError("img is missing attribute: name")
+                        raise ValueError("img is missing attribute: name")
                     self._image_names_to_paths[child.attrib['name']] = child.attrib['path']
                 case _:
                     pass  # ignore

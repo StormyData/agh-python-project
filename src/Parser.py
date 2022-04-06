@@ -4,6 +4,7 @@ from src.Level import Level
 from src.Platform import Platform
 from src.Vector import Vector
 
+vector_scale = 16
 
 class ParseError(Exception):
     pass
@@ -51,6 +52,6 @@ def _parse_vector(val: str) -> Vector:
     if len(tab) != 2:
         raise ParseError(f"vector must be a pair of floats separated by a ',' not {val}")
     x, y = tab
-    x = float(x)
-    y = float(y)
+    x = vector_scale*float(x)
+    y = vector_scale*float(y)
     return Vector(x, y)
