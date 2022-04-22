@@ -5,17 +5,18 @@ from src.Vector import Vector
 
 from pygame import gfxdraw
 from src.AssetLoader import AssetLoader
+from src.Physics import Physics
 
 class Player(Entity):
     def __init__(self, position: Vector, size: Vector, texture_name: str):
-        super().__init__(position, size, texture_name)
+        super().__init__(position, size, texture_name, Physics(Vector(100, -200), 100))
         self.facing_left = True
 
     def flip(self):
         self.facing_left = not self.facing_left
 
-    def move(self, distance: Vector):
-        self.position += distance
+    # def move(self, distance: Vector):
+    #     self.position += distance
 
     def draw(self, window: Surface, offset: Vector):
         texture = AssetLoader.get_singleton().get_image(self.texture_name)
