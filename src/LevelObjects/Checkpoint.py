@@ -1,5 +1,5 @@
-from src.LevelObjects.LevelObject import LevelObject
 from src.LevelObjects.Entities import Player
+from src.LevelObjects.LevelObject import LevelObject
 
 
 class Checkpoint(LevelObject):

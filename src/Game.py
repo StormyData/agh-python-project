@@ -1,10 +1,11 @@
 import pygame
 
-from src.Vector import Vector
-from src.LevelObjects.Entities import Player
 from src.Controller import Controller
 from src.Drawing.Drawers import draw_level, draw_player
+from src.LevelObjects.Entities import Player
 from src.LevelObjects.Platforms import Platform
+from src.Vector import Vector
+
 pygame.init()
 
 
@@ -22,13 +23,13 @@ class Game:
         run = True
         while run:
             curr_time = pygame.time.get_ticks()
-            dt = (curr_time - last_time)/1000
+            dt = (curr_time - last_time) / 1000
             last_time = curr_time
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
             self.controller.update(dt)
-            #level.update(dt)
+            # level.update(dt)
             for game_object in level.objects:
                 if not isinstance(game_object, Platform):
                     continue

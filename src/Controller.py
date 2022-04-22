@@ -1,10 +1,11 @@
 import pygame
+
 from src.LevelObjects.Entities import Player
 from src.Vector import Vector
 
 
 class Controller:
-    player_speed = 64 # px/s
+    player_speed = 64  # px/s
 
     def __init__(self, player: Player):
         self.player = player
@@ -29,4 +30,3 @@ class Controller:
                 self.player.flip()
             self.player.move(Vector(self.player_speed * dt, 0), dt)
         # self.player.update(dt)
-

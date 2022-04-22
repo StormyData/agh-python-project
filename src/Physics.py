@@ -46,5 +46,18 @@ class Collider:
     def move_by(self, distance: Vector) -> None:
         self.pos += distance
 
+    def resetup(self, pos: Vector, size: Vector):
+        self.pos = pos
+        self.size = size
+
+    # def resetup(self, points: [Vector]):
+    #     pass
+    #     min_x = min(point.x for point in points)
+    #     min_y = min(point.y for point in points)
+    #     max_x = min(point.x for point in points)
+    #     max_y = min(point.y for point in points)
+    #     self.pos = Vector(min_x, min_y)
+    #     self.size = Vector(max_x - min_x, max_y - min_y)
+
     def __repr__(self):
         return f"Collider({self.pos}, {self.size})"

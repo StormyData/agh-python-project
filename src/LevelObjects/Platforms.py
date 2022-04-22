@@ -1,5 +1,5 @@
-from src.Physics import Collider
 from src.LevelObjects.LevelObject import LevelObject
+from src.Physics import Collider
 from src.Vector import Vector
 
 
@@ -11,13 +11,13 @@ class Platform(LevelObject):
         self.texture_pos = texture_pos
         self.collider = Collider(position, size)
 
-
     def get_collider(self) -> Collider:
         return self.collider
 
 
 class ChangingSizePlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector, speed: Vector, texture_pos: Vector = Vector(0, 0)):
+    def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector,
+                 speed: Vector, texture_pos: Vector = Vector(0, 0)):
         super(ChangingSizePlatform, self).__init__(position, size, texture_name, texture_pos)
         self.max_size = max_size
         self.min_size = min_size
@@ -38,10 +38,12 @@ class ChangingSizePlatform(Platform):
         else:
             self.size -= self.speed * dt
             self.position -= self.speed * dt / 2
+        self.collider.resetup(self.position, self.size)
 
 
 class DisappearingPlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, max_time: float, texture_pos: Vector = Vector(0, 0)):
+    def __init__(self, position: Vector, size: Vector, texture_name: str, max_time: float,
+                 texture_pos: Vector = Vector(0, 0)):
         super(DisappearingPlatform, self).__init__(position, size, texture_name, texture_pos)
         self.max_time = max_time
         self.timer = 0
@@ -56,7 +58,8 @@ class DisappearingPlatform(Platform):
 
 
 class MovingPlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, start_position: Vector, end_position: Vector, speed: Vector, texture_pos: Vector = Vector(0, 0)):
+    def __init__(self, position: Vector, size: Vector, texture_name: str, start_position: Vector, end_position: Vector,
+                 speed: Vector, texture_pos: Vector = Vector(0, 0)):
         super(MovingPlatform, self).__init__(position, size, texture_name, texture_pos)
         self.start_position = start_position
         self.end_position = end_position
@@ -73,5 +76,7 @@ class MovingPlatform(Platform):
         self.check_boundaries()
         if self.forward:
             self.position += self.speed * dt
+            self.collider.move_by(self.speed * dt)
         else:
             self.position -= self.speed * dt
+            self.collider.move_by(-self.speed * dt)

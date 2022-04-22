@@ -2,6 +2,7 @@ import unittest
 from src.Physics import Collider
 from src.Vector import Vector
 
+
 class ColliderTestCase(unittest.TestCase):
     def test_collides(self):
         a = Collider(Vector(0, 0), Vector(5, 5))

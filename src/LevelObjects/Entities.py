@@ -1,6 +1,6 @@
 from src.LevelObjects.LevelObject import LevelObject
-from src.Vector import Vector
 from src.Physics import Physics, Collider
+from src.Vector import Vector
 
 
 class Entity(LevelObject):
