@@ -1,5 +1,5 @@
 import pygame
-from src.Player import Player
+from src.Entities import Player
 from src.Vector import Vector
 
 

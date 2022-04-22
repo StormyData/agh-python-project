@@ -1,8 +1,9 @@
 import pygame
 
 from src.Vector import Vector
-from src.Player import Player
+from src.Entities import Player
 from src.Controller import Controller
+from src.Drawing.Drawers import draw_level, draw_player
 pygame.init()
 
 
@@ -28,8 +29,8 @@ class Game:
                     run = False
             self.controller.update(dt)
             window.fill((0, 0, 0))
-            level.draw(window, offset)
-            self.player.draw(window, offset)
+            draw_level(level, window, offset)
+            draw_player(self.player, window, offset)
             pygame.display.update()
 
         pygame.quit()

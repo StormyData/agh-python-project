@@ -1,5 +1,5 @@
 import unittest
-from src.Collider import Collider
+from src.Physics import Collider
 from src.Vector import Vector
 
 class ColliderTestCase(unittest.TestCase):

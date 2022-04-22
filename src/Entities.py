@@ -1,9 +1,10 @@
-from pygame import Surface
+from pygame import Surface, gfxdraw
+from pygame.surface import Surface
 
-from src.Collider import Collider
+from src.AssetLoader import AssetLoader
 from src.LevelObject import LevelObject
 from src.Vector import Vector
-from src.Physics import Physics
+from src.Physics import Physics, Collider
 
 
 class Entity(LevelObject):
@@ -28,11 +29,24 @@ class Entity(LevelObject):
 
         self.position += self.speed * dt
 
-    def draw(self, surface: Surface, offset: Vector):
-        pass
-
     def calc_collision(self, collider: Collider):
         pass
 
     def get_collider(self) -> Collider:
         pass
+
+
+class Monster(Entity):
+    pass
+
+
+class Player(Entity):
+    def __init__(self, position: Vector, size: Vector, texture_name: str):
+        super().__init__(position, size, texture_name, Physics(Vector(100, -200), 100))
+        self.facing_left = True
+
+    def flip(self):
+        self.facing_left = not self.facing_left
+
+    # def move(self, distance: Vector):
+    #     self.position += distance
