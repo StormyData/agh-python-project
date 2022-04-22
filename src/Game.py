@@ -14,7 +14,7 @@ class Game:
     screen_height = 900
 
     def __init__(self):
-        self.player = Player(Vector(0, 0), Vector(20, 20), "wall0")
+        self.player = Player(Vector(10, -100), Vector(20, 20), "wall0")
         self.controller = Controller(self.player)
 
     def load_level(self, level):

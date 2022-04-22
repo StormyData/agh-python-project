@@ -2,10 +2,47 @@ from src.Vector import Vector
 
 
 class Physics:
-    def __init__(self, gravity: Vector, jump_speed: float):
-        self.gravity = gravity
+
+    drag_coefficient = 0.025
+
+    def __init__(self):
+        self.speed = Vector(0, 0)
+        self._reset()
+
+    def _reset(self):
+        self._delta_pos = Vector(0, 0)
+        self._collision_vector = Vector(0, 0)
         self.acceleration = Vector(0, 0)
-        self.jump_force = jump_speed
+
+    def apply_force(self, force):
+        self.acceleration += force
+
+    def move(self, delta):
+        self._delta_pos += delta
+
+    def update(self, dt):
+        # drag
+        self.acceleration += self.speed.normalized() * self.drag_coefficient * abs(self.speed) ** 2
+
+        # acceleration
+        self.speed -= self.acceleration * dt
+        # collision
+        if self._collision_vector != Vector(0, 0):
+            if self._collision_vector.dot(self.speed) < 0:
+                if self._collision_vector.x * self.speed.x < 0:
+                    self.speed.x = 0
+                if self._collision_vector.y * self.speed.y < 0:
+                    self.speed.y = 0
+            self._delta_pos += self._collision_vector - self._collision_vector.normalized() * 0.1
+
+        # position
+        self._delta_pos += self.speed * dt
+        delta_pos = self._delta_pos
+        self._reset()
+        return delta_pos
+
+    def add_collision_vector(self, delta_coll: Vector):
+        self._collision_vector += delta_coll
 
 
 class Collider:
