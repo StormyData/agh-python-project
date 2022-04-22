@@ -1,8 +1,4 @@
-from pygame import Surface, gfxdraw
-from pygame.surface import Surface
-
-from src.AssetLoader import AssetLoader
-from src.LevelObject import LevelObject
+from src.LevelObjects.LevelObject import LevelObject
 from src.Vector import Vector
 from src.Physics import Physics, Collider
 
@@ -15,25 +11,34 @@ class Entity(LevelObject):
         self.texture_name = texture_name
         self.speed = Vector(0, 0)
         self.physics = physics
+        self.collider = Collider(position, size)
+        self.collision_offset = Vector(0, 0)
 
     def move(self, distance: Vector, dt: float):
-        self.position += distance
-        self.speed += self.physics.acceleration * dt
+        # self.physics.acceleration += distance
+        self.speed += distance
 
     def jump(self):
-        self.speed.y = self.physics.jump_speed
+        self.physics.acceleration.y -= self.physics.jump_force
 
     def update(self, dt: float):
-        self.speed.x -= self.physics.acceleration.x * dt
-        self.speed.y += self.physics.acceleration.y * dt
+        self.position += self.collision_offset
+        self.collider.move_by(self.collision_offset)
+        self.physics.acceleration += self.physics.gravity
 
+        # self.speed += self.physics.acceleration * dt
         self.position += self.speed * dt
+        self.collider.move_by(self.speed * dt)
+        self.physics.acceleration = Vector(0, 0)
+        self.collision_offset = Vector(0, 0)
 
     def calc_collision(self, collider: Collider):
-        pass
+        delta_coll = self.collider.collide_offset(collider)
+        self.collision_offset += delta_coll
+        print(delta_coll)
 
     def get_collider(self) -> Collider:
-        pass
+        return self.collider
 
 
 class Monster(Entity):
@@ -42,7 +47,7 @@ class Monster(Entity):
 
 class Player(Entity):
     def __init__(self, position: Vector, size: Vector, texture_name: str):
-        super().__init__(position, size, texture_name, Physics(Vector(100, -200), 100))
+        super().__init__(position, size, texture_name, Physics(Vector(0, 10), 100))
         self.facing_left = True
 
     def flip(self):

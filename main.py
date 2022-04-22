@@ -1,6 +1,6 @@
 from src.Game import Game
-from src.Parser import parse_file
-from src.AssetLoader import AssetLoader
+from src.Systems.Parser import parse_file
+from src.Systems.AssetLoader import AssetLoader
 
 
 def main():

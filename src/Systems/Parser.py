@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ETree
 
 from src.Level import Level
-from src.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
+from src.LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
 from src.Vector import Vector
 
 vector_scale = 16

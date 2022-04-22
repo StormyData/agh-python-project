@@ -1,10 +1,10 @@
 import pygame
 
 from src.Vector import Vector
-from src.Entities import Player
+from src.LevelObjects.Entities import Player
 from src.Controller import Controller
 from src.Drawing.Drawers import draw_level, draw_player
-from src.Platforms import Platform
+from src.LevelObjects.Platforms import Platform
 pygame.init()
 
 

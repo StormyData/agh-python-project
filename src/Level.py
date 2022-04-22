@@ -1,8 +1,4 @@
-from pygame import Surface, gfxdraw
-
-from src.LevelObject import LevelObject
-from src.Vector import Vector
-from src.AssetLoader import AssetLoader
+from src.LevelObjects.LevelObject import LevelObject
 
 
 class Level:

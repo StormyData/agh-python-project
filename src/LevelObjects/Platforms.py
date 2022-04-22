@@ -1,8 +1,7 @@
-from pygame import Surface, gfxdraw
 from src.Physics import Collider
-from src.LevelObject import LevelObject
+from src.LevelObjects.LevelObject import LevelObject
 from src.Vector import Vector
-from src.AssetLoader import AssetLoader
+
 
 class Platform(LevelObject):
     def __init__(self, position: Vector, size: Vector, texture_name: str, texture_pos: Vector = Vector(0, 0)):

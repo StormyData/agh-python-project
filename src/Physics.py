@@ -2,9 +2,10 @@ from src.Vector import Vector
 
 
 class Physics:
-    def __init__(self, acceleration: Vector, jump_speed: int):
-        self.acceleration = acceleration
-        self.jump_speed = jump_speed
+    def __init__(self, gravity: Vector, jump_speed: float):
+        self.gravity = gravity
+        self.acceleration = Vector(0, 0)
+        self.jump_force = jump_speed
 
 
 class Collider:

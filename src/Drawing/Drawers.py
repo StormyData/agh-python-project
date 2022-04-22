@@ -1,11 +1,14 @@
 import pygame
 import pygame.gfxdraw
-from src.LevelObject import LevelObject
-from src.Platforms import Platform, DisappearingPlatform
-from src.Entities import Entity, Player
+from src.LevelObjects.LevelObject import LevelObject
+from src.LevelObjects.Platforms import Platform, DisappearingPlatform
+from src.LevelObjects.Entities import Entity, Player
 from src.Vector import Vector
-from src.AssetLoader import AssetLoader
+from src.Systems.AssetLoader import AssetLoader
 from src.Level import Level
+
+
+draw_collisions = False
 
 
 def draw_level(level: Level, surface: pygame.Surface, offset: Vector):
@@ -47,7 +50,9 @@ def draw_platform(platform: Platform, surface: pygame.Surface , offset: Vector):
                                        offset_position.y + platform.size.y),
                                       (offset_position.x + platform.size.x, offset_position.y)],
                              texture, int(offset_position.x + platform.texture_pos.x), int(-offset_position.y + platform.texture_pos.y))
-
+    if draw_collisions:
+        collider = platform.get_collider()
+        pygame.draw.rect(surface, (255, 0, 0), (collider.pos.x + offset.x, collider.pos.y + offset.y, collider.size.x, collider.size.y))
 
 def draw_entity(entity: Entity, surface: pygame.Surface , offset: Vector):
     pass
@@ -66,3 +71,6 @@ def draw_player(player: Player, surface: pygame.Surface, offset:Vector):
                                                offset_position.y + player.size.y),
                                               (offset_position.x + player.size.x, offset_position.y)],
                                     texture, 0, 0)
+    if draw_collisions:
+        collider = player.get_collider()
+        pygame.draw.rect(surface, (0, 255, 0), (collider.pos.x + offset.x, collider.pos.y + offset.y, collider.size.x, collider.size.y))
