@@ -11,4 +11,5 @@ class Level:
         self.background_texture_name = background_texture_name
 
     def update(self, dt: float):
-        pass
+        for game_object in self.objects:
+            game_object.update(dt)

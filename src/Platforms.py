@@ -5,19 +5,21 @@ from src.Vector import Vector
 from src.AssetLoader import AssetLoader
 
 class Platform(LevelObject):
-    def __init__(self, position: Vector, size: Vector, texture_name: str):
+    def __init__(self, position: Vector, size: Vector, texture_name: str, texture_pos: Vector = Vector(0, 0)):
         super().__init__(position)
         self.size = size
         self.texture_name = texture_name
+        self.texture_pos = texture_pos
         self.collider = Collider(position, size)
+
 
     def get_collider(self) -> Collider:
         return self.collider
 
 
 class ChangingSizePlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector, speed: Vector):
-        super(ChangingSizePlatform, self).__init__(position, size, texture_name)
+    def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector, speed: Vector, texture_pos: Vector = Vector(0, 0)):
+        super(ChangingSizePlatform, self).__init__(position, size, texture_name, texture_pos)
         self.max_size = max_size
         self.min_size = min_size
         self.speed = speed
@@ -40,12 +42,11 @@ class ChangingSizePlatform(Platform):
 
 
 class DisappearingPlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name, max_time: float):
-        super(DisappearingPlatform, self).__init__(position, size, texture_name)
+    def __init__(self, position: Vector, size: Vector, texture_name: str, max_time: float, texture_pos: Vector = Vector(0, 0)):
+        super(DisappearingPlatform, self).__init__(position, size, texture_name, texture_pos)
         self.max_time = max_time
         self.timer = 0
         self.visible = True
-
 
     def update(self, dt):
         self.timer += dt
@@ -56,8 +57,8 @@ class DisappearingPlatform(Platform):
 
 
 class MovingPlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, start_position: Vector, end_position: Vector, speed: Vector):
-        super(MovingPlatform, self).__init__(position, size, texture_name)
+    def __init__(self, position: Vector, size: Vector, texture_name: str, start_position: Vector, end_position: Vector, speed: Vector, texture_pos: Vector = Vector(0, 0)):
+        super(MovingPlatform, self).__init__(position, size, texture_name, texture_pos)
         self.start_position = start_position
         self.end_position = end_position
         self.speed = speed

@@ -37,12 +37,16 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
 def draw_platform(platform: Platform, surface: pygame.Surface , offset: Vector):
     texture = AssetLoader.get_singleton().get_image(platform.texture_name)
     offset_position = platform.position + offset
+    width, height = surface.get_size()
+    if offset_position.x > width or offset_position.x + platform.size.x < 0 or\
+            offset_position.y > height or offset_position.y + platform.size.y < 0:
+        return
     pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
                                       (offset_position.x, offset_position.y + platform.size.y),
                                       (offset_position.x + platform.size.x,
                                        offset_position.y + platform.size.y),
                                       (offset_position.x + platform.size.x, offset_position.y)],
-                             texture, 0, 0)
+                             texture, int(offset_position.x + platform.texture_pos.x), int(-offset_position.y + platform.texture_pos.y))
 
 
 def draw_entity(entity: Entity, surface: pygame.Surface , offset: Vector):
@@ -52,6 +56,10 @@ def draw_entity(entity: Entity, surface: pygame.Surface , offset: Vector):
 def draw_player(player: Player, surface: pygame.Surface, offset:Vector):
     texture = AssetLoader.get_singleton().get_image(player.texture_name)
     offset_position = player.position + offset
+    width, height = surface.get_size()
+    if offset_position.x > width or offset_position.x + player.size.x < 0 or \
+            offset_position.y > height or offset_position.y + player.size.y < 0:
+        return
     pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
                                               (offset_position.x, offset_position.y + player.size.y),
                                               (offset_position.x + player.size.x,

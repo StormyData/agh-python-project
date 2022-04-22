@@ -43,10 +43,13 @@ def _parse_platform(element: ETree.Element) -> Platform:
         raise ParseError("platform requires a size")
     if 'texture' not in element.attrib:
         raise ParseError("platform requires a texture name")
+    texture_pos = Vector(0, 0)
+    if 'texture_pos' in element.attrib:
+        texture_pos = _parse_vector(element.attrib['texture_pos'])
     position = _parse_vector(element.attrib['position'])
     size = _parse_vector(element.attrib['size'])
     texture = element.attrib['texture']
-    return Platform(position, size, texture)
+    return Platform(position, size, texture, texture_pos)
 
 
 def _parse_vector(val: str) -> Vector:

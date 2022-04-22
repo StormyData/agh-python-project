@@ -21,5 +21,13 @@ class Vector:
             return NotImplemented
         return Vector(self.x * other, self.y * other)
 
+    def __rmul__(self, other):
+        if not isinstance(other, float):
+            return NotImplemented
+        return Vector(self.x * other, self.y * other)
+
     def __abs__(self):
         return (self.x ** 2 + self.y ** 2) ** 0.5
+
+    def __neg__(self):
+        return Vector(-self.x, -self.y)

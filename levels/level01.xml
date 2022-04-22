@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <level background="sky0">
     <platform position="0,0" size="10,2" texture="grass0"/>
-    <platform position="10,-3" size="2,5" texture="wall0"/>
+    <platform position="10,-3" size="2,5" texture="wall0" texture_pos="100,100"/>
     <platform position="-2,-3" size="2,5" texture="wall0"/>
 </level>
