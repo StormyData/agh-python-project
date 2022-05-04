@@ -1,5 +1,5 @@
 from src.LevelObjects.LevelObject import LevelObject
-
+from src.LevelObjects.Platforms import Platform
 
 class Level:
     def __init__(self, objects: [LevelObject], background_texture_name: str):
@@ -8,4 +8,5 @@ class Level:
 
     def update(self, dt: float):
         for game_object in self.objects:
-            game_object.update(dt)
+            if isinstance(game_object, Platform):
+                game_object.update(dt)

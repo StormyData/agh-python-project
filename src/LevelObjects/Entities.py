@@ -54,9 +54,14 @@ class Player(Entity):
     def __init__(self, position: Vector, size: Vector, texture_name: str):
         super().__init__(position, size, texture_name)
         self.facing_left = True
+        self.last_checkpoint = None
 
     def flip(self):
         self.facing_left = not self.facing_left
 
     # def move(self, distance: Vector):
     #     self.position += distance
+    def set_last_checkpoint(self, checkpoint):
+        if self.last_checkpoint != checkpoint:
+            self.last_checkpoint = checkpoint
+            print(f"set new checkpoint {checkpoint}")

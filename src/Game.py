@@ -5,7 +5,7 @@ from src.Drawing.Drawers import draw_level, draw_player
 from src.LevelObjects.Entities import Player
 from src.LevelObjects.Platforms import Platform
 from src.Vector import Vector
-
+from src.LevelObjects.Checkpoint import Checkpoint
 pygame.init()
 
 
@@ -29,11 +29,13 @@ class Game:
                 if event.type == pygame.QUIT:
                     run = False
             self.controller.update(dt)
-            # level.update(dt)
+            level.update(dt)
             for game_object in level.objects:
-                if not isinstance(game_object, Platform):
-                    continue
-                self.player.calc_collision(game_object.get_collider())
+                if isinstance(game_object, Platform):
+                    self.player.calc_collision(game_object.get_collider())
+                elif isinstance(game_object, Checkpoint):
+                    game_object.check_collision(self.player)
+
             self.player.update(dt)
             offset = -self.player.position + Vector(Game.screen_width, Game.screen_height) * 0.5
             window.fill((0, 0, 0))

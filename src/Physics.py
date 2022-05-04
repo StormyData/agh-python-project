@@ -51,11 +51,13 @@ class Collider:
         self.size = size
 
     def collides(self, other) -> bool:
+        if other is None:
+            return False
         return not (self.pos.x + self.size.x <= other.pos.x or self.pos.x >= other.pos.x + other.size.x or
                     self.pos.y + self.size.y <= other.pos.y or self.pos.y >= other.pos.y + other.size.y)
 
     def collide_offset(self, other) -> Vector:
-        if not self.collides(other):
+        if other is None or not self.collides(other):
             return Vector(0, 0)
         min_dx = None
         min_dy = None

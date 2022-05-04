@@ -14,6 +14,9 @@ class Platform(LevelObject):
     def get_collider(self) -> Collider:
         return self.collider
 
+    def update(self, dt: float):
+        pass
+
 
 class ChangingSizePlatform(Platform):
     def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector,
@@ -55,6 +58,13 @@ class DisappearingPlatform(Platform):
             return
         self.timer = 0
         self.visible = not self.visible
+    def get_collider(self) -> Collider | None:
+        if self.visible:
+            return self.collider
+        else:
+            return None
+
+#   <moving_platform position="-3,-3" size="2,2" texture="grass0" start_position="-5,-5" end_position="0,0" speed="-2,-2"/>
 
 
 class MovingPlatform(Platform):
@@ -73,6 +83,7 @@ class MovingPlatform(Platform):
             self.forward = False
 
     def update(self, dt):
+        #print(self.position)
         self.check_boundaries()
         if self.forward:
             self.position += self.speed * dt

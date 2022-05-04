@@ -53,3 +53,10 @@ class Vector:
         if len < self.eps:
             return Vector(0, 0)
         return self / len
+
+    def as_tuple(self):
+        return self.x, self.y
+
+    @staticmethod
+    def from_tuple(tuple):
+        return Vector(tuple[0], tuple[1])

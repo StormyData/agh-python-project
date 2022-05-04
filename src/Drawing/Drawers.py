@@ -7,9 +7,11 @@ from src.LevelObjects.LevelObject import LevelObject
 from src.LevelObjects.Platforms import Platform, DisappearingPlatform
 from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector
+from src.LevelObjects.Checkpoint import Checkpoint
 
 draw_collisions = False
 draw_speed = True
+draw_checkpoints = False
 
 pygame.font.init()
 font = pygame.font.SysFont('Arial', 30)
@@ -39,6 +41,8 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
             draw_player(player, surface, offset)
         case Entity() as entity:
             draw_entity(entity, surface, offset)
+        case Checkpoint() as chheckpoint:
+            draw_checkpoint(chheckpoint, surface, offset)
 
 
 def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
@@ -61,6 +65,11 @@ def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
                          (collider.pos.x + offset.x, collider.pos.y + offset.y, collider.size.x, collider.size.y))
 
 
+def draw_checkpoint(checkpoint: Checkpoint, surface: pygame.Surface, offset: Vector):
+    if draw_checkpoints:
+        pygame.draw.rect(surface, (0, 255, 0),
+                     (checkpoint.position.x + offset.x, checkpoint.position.y + offset.y, checkpoint.size.x, checkpoint.size.y))
+
 def draw_entity(entity: Entity, surface: pygame.Surface, offset: Vector):
     pass
 
@@ -75,12 +84,15 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
     if offset_position.x > width or offset_position.x + player.size.x < 0 or \
             offset_position.y > height or offset_position.y + player.size.y < 0:
         return
-    pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
-                                              (offset_position.x, offset_position.y + player.size.y),
-                                              (offset_position.x + player.size.x,
-                                               offset_position.y + player.size.y),
-                                              (offset_position.x + player.size.x, offset_position.y)],
-                                    texture, 0, 0)
+    pygame.draw.rect(surface, (0, 0, 255),
+                     (player.position.x + offset.x, player.position.y + offset.y, player.size.x, player.size.y))
+
+        # pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
+    #                                           (offset_position.x, offset_position.y + player.size.y),
+    #                                           (offset_position.x + player.size.x,
+    #                                            offset_position.y + player.size.y),
+    #                                           (offset_position.x + player.size.x, offset_position.y)],
+    #                                 texture, 0, 0)
     if draw_collisions:
         collider = player.get_collider()
         pygame.draw.rect(surface, (0, 255, 0),

@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ETree
 
 from src.Level import Level
 from src.LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
+from src.LevelObjects.Checkpoint import Checkpoint
 from src.Vector import Vector
 
 vector_scale = 16
@@ -37,22 +38,29 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
                 contents.add(_parse_disappearing_platform(child))
             case "changing_size_platform":
                 contents.add(_parse_changing_size_platform(child))
+            case "checkpoint":
+                contents.add(_parse_checkpoint(child))
             case _:
                 raise ParseError("unknown level element")
     return Level(contents, bg)
 
 
+def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
+    fields = {'position': _parse_vector, 'size': _parse_vector}
+    return _parse(element, Checkpoint, fields)
+
+
 def _parse_changing_size_platform(element: ETree.Element) -> ChangingSizePlatform:
     fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
               'max_size': _parse_vector, 'min_size': _parse_vector, 'speed': _parse_vector}
-    field_renames = {'texture': 'texture_name', 'time': 'max_time'}
+    field_renames = {'texture': 'texture_name'}
     defaults = {'texture_pos': Vector(0, 0)}
     return _parse(element, ChangingSizePlatform, fields, field_renames, defaults)
 
 
 def _parse_disappearing_platform(element: ETree.Element) -> DisappearingPlatform:
     fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
-              'time': _parse_vector}
+              'time': float}
     field_renames = {'texture': 'texture_name', 'time': 'max_time'}
     defaults = {'texture_pos': Vector(0, 0)}
     return _parse(element, DisappearingPlatform, fields, field_renames, defaults)
