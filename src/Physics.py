@@ -48,55 +48,82 @@ class Physics:
 class Collider:
     def __init__(self, pos: Vector, size: Vector):
         self.pos = pos
-        self.size = size
+        self.vertices = [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]
+        self.min_max_arr = None
+        self.min_max_arr_dirty = True
 
     def collides(self, other) -> bool:
-        if other is None:
-            return False
-        return not (self.pos.x + self.size.x <= other.pos.x or self.pos.x >= other.pos.x + other.size.x or
-                    self.pos.y + self.size.y <= other.pos.y or self.pos.y >= other.pos.y + other.size.y)
+        other: Collider
+        self._update_pos()
+        other._update_pos()
+        return self._sat(other, False).collides and other._sat(self, True).collides
 
     def collide_offset(self, other) -> Vector:
-        if other is None or not self.collides(other):
+        other: Collider
+        self._update_pos()
+        other._update_pos()
+        res1 = self._sat(other, False)
+        res2 = other._sat(self, True)
+        if not res1.collides or not res2.collides:
             return Vector(0, 0)
-        min_dx = None
-        min_dy = None
-        if self.pos.x + self.size.x >= other.pos.x:
-            min_dx = other.pos.x - self.pos.x - self.size.x
-        if self.pos.x <= other.pos.x + other.size.x:
-            dx = other.pos.x + other.size.x - self.pos.x
-            if min_dx is None or abs(dx) < abs(min_dx):
-                min_dx = dx
-
-        if self.pos.y + self.size.y >= other.pos.y:
-            min_dy = other.pos.y - self.pos.y - self.size.y
-        if self.pos.y <= other.pos.y + other.size.y:
-            dy = other.pos.y + other.size.y - self.pos.y
-            if min_dy is None or abs(dy) < abs(min_dy):
-                min_dy = dy
-
-        if min_dx is None or min_dy is None:
-            return Vector(0, 0)
-        if abs(min_dx) < abs(min_dy):
-            return Vector(min_dx, 0)
+        if abs(res1.distance) < abs(res2.distance):
+            return res1.vector * -res1.distance
         else:
-            return Vector(0, min_dy)
+            return res2.vector * -res2.distance
 
     def move_by(self, distance: Vector) -> None:
         self.pos += distance
 
     def resetup(self, pos: Vector, size: Vector):
         self.pos = pos
-        self.size = size
+        self.vertices = [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]
+        self.min_max_arr_dirty = True
 
-    # def resetup(self, points: [Vector]):
-    #     pass
-    #     min_x = min(point.x for point in points)
-    #     min_y = min(point.y for point in points)
-    #     max_x = min(point.x for point in points)
-    #     max_y = min(point.y for point in points)
-    #     self.pos = Vector(min_x, min_y)
-    #     self.size = Vector(max_x - min_x, max_y - min_y)
+    def _update_pos(self):
+        if self.pos != Vector(0, 0):
+            for i in range(len(self.vertices)):
+                self.vertices[i] += self.pos
+            self.pos = Vector(0, 0)
+
+    def _calc_min_max_arr(self):
+        self.min_max_arr_dirty = False
+        self.min_max_arr = [None] * len(self.vertices)
+        for i in range(len(self.vertices)):
+            axis = (self.vertices[i - 1] - self.vertices[i]).rotate_90_deg_clockwise().normalized()
+            min1 = min(axis.dot(vertex) for vertex in self.vertices)
+            max1 = max(axis.dot(vertex) for vertex in self.vertices)
+            self.min_max_arr[i] = (min1, max1)
+
+    def _sat(self, other, flip: bool):
+        other: Collider
+        if self.min_max_arr_dirty:
+            self._calc_min_max_arr()
+        result = CollisionResult()
+        result.collides = True
+        shortest_dist = float('inf')
+        for i in range(len(self.vertices)):
+            axis = (self.vertices[i - 1] - self.vertices[i]).rotate_90_deg_clockwise().normalized()
+            min1 = min(axis.dot(vertex) for vertex in other.vertices)
+            max1 = max(axis.dot(vertex) for vertex in other.vertices)
+            if self.min_max_arr[i][0] > max1 or min1 > self.min_max_arr[i][1]:
+                result.collides = False
+                return result
+            dist = self.min_max_arr[i][0] - max1
+            if flip:
+                dist *= -1
+            if abs(dist) < shortest_dist:
+                shortest_dist = abs(dist)
+                result.distance = dist
+                result.vector = axis
+        return result
 
     def __repr__(self):
-        return f"Collider({self.pos}, {self.size})"
+        self._update_pos()
+        return f"Collider({self.vertices})"
+
+
+class CollisionResult:
+    def __init__(self):
+        self.collides = False
+        self.vector = Vector(0, 0)
+        self.distance = 0

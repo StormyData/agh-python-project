@@ -57,6 +57,12 @@ class Vector:
     def as_tuple(self):
         return self.x, self.y
 
+    def rotate_90_deg_clockwise(self):
+        return Vector(self.y, -self.x)
+
+    def rotate_90_deg_anticlockwise(self):
+        return Vector(-self.y, self.x)
+
     @staticmethod
     def from_tuple(tuple):
         return Vector(tuple[0], tuple[1])

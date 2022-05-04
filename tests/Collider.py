@@ -10,7 +10,7 @@ class ColliderTestCase(unittest.TestCase):
         self.assertTrue(a.collides(b), f"Colliders {a} and {b} did not collide")
         self.assertTrue(b.collides(a), f"Colliders {b} and {a} did not collide")
 
-        c = Collider(Vector(5, 5), Vector(1, 1))
+        c = Collider(Vector(6, 6), Vector(1, 1))
         self.assertFalse(a.collides(c), f"Colliders {a} and {c} did collide")
         self.assertFalse(c.collides(a), f"Colliders {c} and {a} did collide")
         self.assertFalse(b.collides(c), f"Colliders {b} and {c} did collide")
