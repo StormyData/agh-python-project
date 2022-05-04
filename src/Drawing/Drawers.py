@@ -61,8 +61,7 @@ def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
                                     int(-offset_position.y + platform.texture_pos.y))
     if draw_collisions:
         collider = platform.get_collider()
-        pygame.draw.rect(surface, (255, 0, 0),
-                         (collider.pos.x + offset.x, collider.pos.y + offset.y, collider.size.x, collider.size.y))
+        pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
 
 
 def draw_checkpoint(checkpoint: Checkpoint, surface: pygame.Surface, offset: Vector):
@@ -95,5 +94,4 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
     #                                 texture, 0, 0)
     if draw_collisions:
         collider = player.get_collider()
-        pygame.draw.rect(surface, (0, 255, 0),
-                         (collider.pos.x + offset.x, collider.pos.y + offset.y, collider.size.x, collider.size.y))
+        pygame.draw.polygon(surface, (0, 255, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])

@@ -2,7 +2,6 @@ from src.Vector import Vector
 
 
 class Physics:
-
     drag_coefficient = 0.025
 
     def __init__(self):
@@ -53,18 +52,22 @@ class Collider:
         self.min_max_arr_dirty = True
 
     def collides(self, other) -> bool:
+        if other is None:
+            return False
         other: Collider
         self._update_pos()
         other._update_pos()
         return self._sat(other, False).collides and other._sat(self, True).collides
 
     def collide_offset(self, other) -> Vector:
+        if other is None:
+            return Vector(0, 0)
         other: Collider
         self._update_pos()
         other._update_pos()
-        res1 = self._sat(other, False)
         res2 = other._sat(self, True)
-        if not res1.collides or not res2.collides:
+        res1 = self._sat(other, False)
+        if (not res1.collides) or (not res2.collides):
             return Vector(0, 0)
         if abs(res1.distance) < abs(res2.distance):
             return res1.vector * -res1.distance
@@ -84,6 +87,7 @@ class Collider:
             for i in range(len(self.vertices)):
                 self.vertices[i] += self.pos
             self.pos = Vector(0, 0)
+            self.min_max_arr_dirty = True
 
     def _calc_min_max_arr(self):
         self.min_max_arr_dirty = False
@@ -99,7 +103,6 @@ class Collider:
         if self.min_max_arr_dirty:
             self._calc_min_max_arr()
         result = CollisionResult()
-        result.collides = True
         shortest_dist = float('inf')
         for i in range(len(self.vertices)):
             axis = (self.vertices[i - 1] - self.vertices[i]).rotate_90_deg_clockwise().normalized()
@@ -115,6 +118,7 @@ class Collider:
                 shortest_dist = abs(dist)
                 result.distance = dist
                 result.vector = axis
+        result.collides = True
         return result
 
     def __repr__(self):
