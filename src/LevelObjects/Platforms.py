@@ -28,6 +28,7 @@ class ChangingSizePlatform(Platform):
         self.min_size = min_size
         self.speed_vector = (self.max_size - self.min_size).normalized() * speed * 15
         self.enlarge = True
+        print(self.speed_vector)
 
     def check_size_limit(self):
         if self.min_size.y < self.max_size.y:
