@@ -51,7 +51,13 @@ class Entity(LevelObject):
 
 
 class Monster(Entity):
-    pass
+    def __init__(self, position: Vector, size: Vector, texture_name: str, speed: float):
+        super().__init__(position, size, texture_name)
+        self.speed = speed * 15
+        self.facing_left = True
+
+    def flip(self):
+        self.facing_left = not self.facing_left
 
 
 class Player(Entity):

@@ -8,6 +8,7 @@ from src.LevelObjects.Platforms import Platform, DisappearingPlatform
 from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector
 from src.LevelObjects.Checkpoint import Checkpoint
+from src.LevelObjects.Entities import Monster
 
 draw_collisions = False
 draw_speed = True
@@ -39,10 +40,12 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
             draw_platform(platform, surface, offset)
         case Player() as player:
             draw_player(player, surface, offset)
+        case Monster() as monster:
+            draw_monster(monster, surface, offset)
         case Entity() as entity:
             draw_entity(entity, surface, offset)
-        case Checkpoint() as chheckpoint:
-            draw_checkpoint(chheckpoint, surface, offset)
+        case Checkpoint() as checkpoint:
+            draw_checkpoint(checkpoint, surface, offset)
 
 
 def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
@@ -62,9 +65,31 @@ def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
         pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
 
 
+def draw_monster(monster: Monster, surface: pygame.Surface, offset: Vector):
+    texture = AssetLoader.get_singleton().get_image(monster.texture_name)
+    offset_position = monster.position + offset
+    width, height = surface.get_size()
+    if offset_position.x > width or offset_position.x + monster.size.x < 0 or \
+            offset_position.y > height or offset_position.y + monster.size.y < 0:
+        return
+
+    pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
+                                          (offset_position.x, offset_position.y + monster.size.y),
+                                          (offset_position.x + monster.size.x,
+                                           offset_position.y + monster.size.y),
+                                          (offset_position.x + monster.size.x, offset_position.y)],
+                                texture, int(offset.x),
+                                    int(-offset.y))
+
+    if draw_collisions:
+        collider = monster.get_collider()
+        pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
+
+
 def draw_checkpoint(checkpoint: Checkpoint, surface: pygame.Surface, offset: Vector):
     if draw_checkpoints:
         pygame.draw.polygon(surface, (0, 255, 0), [(v + offset).as_tuple() for v in checkpoint.vertices])
+
 
 def draw_entity(entity: Entity, surface: pygame.Surface, offset: Vector):
     pass
@@ -99,4 +124,4 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
     #                                 texture, 0, 0)
     if draw_collisions:
         collider = player.get_collider()
-        pygame.draw.polygon(surface, (0, 255, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
+        pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
