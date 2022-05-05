@@ -1,15 +1,19 @@
+from typing import List
+
 from src.LevelObjects.LevelObject import LevelObject
 from src.Physics import Collider
-from src.Vector import Vector
+from src.Vector import Vector, get_sized_box
 
 
 class Platform(LevelObject):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, texture_pos: Vector = Vector(0, 0)):
-        super().__init__(position)
-        self.size = size
+    def __init__(self, vertices: List[Vector], texture_name: str, texture_pos: Vector = Vector(0, 0)):
+        self.vertices = vertices
         self.texture_name = texture_name
         self.texture_pos = texture_pos
-        self.collider = Collider(position, size)
+        self.collider = Collider(self.vertices)
+        self._recalc_bounding_box()
+
+        super().__init__(self.bounding_box[0])
 
     def get_collider(self) -> Collider:
         return self.collider
@@ -17,47 +21,51 @@ class Platform(LevelObject):
     def update(self, dt: float):
         pass
 
+    def get_bounding_box(self) -> (Vector, Vector):
+        return self.bounding_box
+
+    def _recalc_bounding_box(self):
+        min_x = min(self.vertices, key=lambda v: v.x)
+        max_x = max(self.vertices, key=lambda v: v.x)
+        min_y = min(self.vertices, key=lambda v: v.y)
+        max_y = max(self.vertices, key=lambda v: v.y)
+        self.bounding_box = (Vector(min_x.x, min_y.y), Vector(max_x.x, max_y.y))
+
 
 class ChangingSizePlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector,
+    def __init__(self, vertices: List[Vector], init_size: float, texture_name: str, max_size: float, min_size: float,
                  speed: float, texture_pos: Vector = Vector(0, 0)):
-        super(ChangingSizePlatform, self).__init__(position, size, texture_name, texture_pos)
-        if min_size.x > max_size.x:
-            min_size, max_size = max_size, min_size
+        super(ChangingSizePlatform, self).__init__(vertices, texture_name, texture_pos)
+        self.center = sum(vertices, Vector(0, 0)) / len(vertices)
+        self.base_vertices = [(v-self.center) / init_size for v in vertices]
+        self.base_texture_pos = (texture_pos - self.center) / init_size
+        self.size = init_size
         self.max_size = max_size
         self.min_size = min_size
-        self.speed_vector = (self.max_size - self.min_size).normalized() * speed * 15
-        self.enlarge = True
-        print(self.speed_vector)
+        self.speed = speed
+        self.shrink = False
 
     def check_size_limit(self):
-        if self.min_size.y < self.max_size.y:
-            if self.size.x < self.min_size.x or self.size.y < self.min_size.y:
-                self.enlarge = True
-            elif self.max_size.x < self.size.x or self.max_size.y < self.size.y:
-                self.enlarge = False
-        else:
-            if self.size.x < self.min_size.x or self.size.y > self.min_size.y:
-                self.enlarge = True
-            elif self.max_size.x < self.size.x or self.max_size.y > self.size.y:
-                self.enlarge = False
-
+        if self.size >= self.max_size:
+            self.shrink = True
+        elif self.size <= self.min_size:
+            self.shrink = False
 
     def update(self, dt):
         self.check_size_limit()
-        if self.enlarge:
-            self.size += self.speed_vector * dt
-            self.position -= self.speed_vector * dt / 2
-        else:
-            self.size -= self.speed_vector * dt
-            self.position += self.speed_vector * dt / 2
-        self.collider.resetup(self.position, self.size)
+        ds = self.speed * dt
+        if self.shrink:
+            ds *= -1
+        self.size += ds
+        self.vertices = [self.size * v + self.center for v in self.base_vertices]
+        self.collider.resetup(self.vertices)
+        self._recalc_bounding_box()
 
 
 class DisappearingPlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, max_time: float,
+    def __init__(self, vertices: List[Vector], texture_name: str, max_time: float,
                  texture_pos: Vector = Vector(0, 0)):
-        super(DisappearingPlatform, self).__init__(position, size, texture_name, texture_pos)
+        super(DisappearingPlatform, self).__init__(vertices, texture_name, texture_pos)
         self.max_time = max_time
         self.timer = 0
         self.visible = True
@@ -75,36 +83,31 @@ class DisappearingPlatform(Platform):
         else:
             return None
 
+#   <moving_platform position="-3,-3" size="2,2" texture="grass0" start_position="-5,-5" end_position="0,0" speed="-2,-2"/>
+
 
 class MovingPlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, start_position: Vector, end_position: Vector,
-                 speed: float, texture_pos: Vector = Vector(0, 0)):
-        super(MovingPlatform, self).__init__(position, size, texture_name, texture_pos)
-        if start_position.x > end_position.x:
-            start_position, end_position = end_position, start_position
+    def __init__(self, vertices: List[Vector], texture_name: str, start_position: Vector, end_position: Vector,
+                 speed: Vector, texture_pos: Vector = Vector(0, 0)):
+        super(MovingPlatform, self).__init__(vertices, texture_name, texture_pos)
         self.start_position = start_position
         self.end_position = end_position
-        self.speed_vector = (self.end_position - self.start_position).normalized() * speed * 15
+        self.speed = speed
         self.forward = True
 
     def check_boundaries(self):
-        if self.start_position.y < self.end_position.y:
-            if self.position.x < self.start_position.x or self.position.y < self.start_position.y:
-                self.forward = True
-            elif self.end_position.x < self.position.x or self.end_position.y < self.position.y:
-                self.forward = False
-        else:
-            if self.position.x < self.start_position.x or self.position.y > self.start_position.y:
-                self.forward = True
-            elif self.end_position.x < self.position.x or self.end_position.y > self.position.y:
-                self.forward = False
-
+        if self.position.x <= self.start_position.x or self.position.y <= self.position.y:
+            self.forward = True
+        elif self.position.x >= self.end_position.x or self.position.y >= self.position.y:
+            self.forward = False
 
     def update(self, dt):
+        #print(self.position)
         self.check_boundaries()
         if self.forward:
-            self.position += self.speed_vector * dt
-            self.collider.move_by(self.speed_vector * dt)
+            self.position += self.speed * dt
+            self.collider.move_by(self.speed * dt)
         else:
-            self.position -= self.speed_vector * dt
-            self.collider.move_by(-self.speed_vector * dt)
+            self.position -= self.speed * dt
+            self.collider.move_by(-self.speed * dt)
+        self._recalc_bounding_box()

@@ -46,39 +46,46 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
 
 
 def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
-    fields = {'position': _parse_vector, 'size': _parse_vector}
-    return _parse(element, Checkpoint, fields)
+    fields = {'id': str, 'tele_to': _parse_vector}
+    child_nodes = {'v': _parse_platform_vertex}
+    field_renames = {'v': 'vertices'}
+    return _parse(element, Checkpoint, fields, field_renames, child_nodes=child_nodes)
 
 
 def _parse_changing_size_platform(element: ETree.Element) -> ChangingSizePlatform:
-    fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
-              'max_size': _parse_vector, 'min_size': _parse_vector, 'speed': float}
-    field_renames = {'texture': 'texture_name'}
-    defaults = {'texture_pos': Vector(0, 0)}
-    return _parse(element, ChangingSizePlatform, fields, field_renames, defaults)
+    fields = {'init_size': float, 'texture': str, 'texture_pos': _parse_vector,
+              'max_size': float, 'min_size': float, 'speed': float}
+    field_renames = {'texture': 'texture_name', 'v': 'vertices'}
+
+    child_nodes = {'v': _parse_platform_vertex}
+    defaults = {'texture_pos': Vector(0, 0), 'init_size': 1}
+    return _parse(element, ChangingSizePlatform, fields, field_renames, defaults,child_nodes)
 
 
 def _parse_disappearing_platform(element: ETree.Element) -> DisappearingPlatform:
-    fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
+    fields = {'texture': str, 'texture_pos': _parse_vector,
               'time': float}
-    field_renames = {'texture': 'texture_name', 'time': 'max_time'}
+    field_renames = {'texture': 'texture_name', 'time': 'max_time', 'v': 'vertices'}
     defaults = {'texture_pos': Vector(0, 0)}
-    return _parse(element, DisappearingPlatform, fields, field_renames, defaults)
+    child_nodes = {'v': _parse_platform_vertex}
+    return _parse(element, DisappearingPlatform, fields, field_renames, defaults, child_nodes)
 
 
 def _parse_moving_platform(element: ETree.Element) -> MovingPlatform:
-    fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
-              'start_position': _parse_vector, 'end_position': _parse_vector, 'speed': float}
-    field_renames = {'texture': 'texture_name'}
+    fields = {'texture': str, 'texture_pos': _parse_vector,
+              'start_position': _parse_vector, 'end_position': _parse_vector, 'speed': _parse_vector}
+    field_renames = {'texture': 'texture_name', 'v': 'vertices'}
     defaults = {'texture_pos': Vector(0, 0)}
-    return _parse(element, MovingPlatform, fields, field_renames, defaults)
+    child_nodes = {'v': _parse_platform_vertex}
+    return _parse(element, MovingPlatform, fields, field_renames, defaults, child_nodes)
 
 
 def _parse_platform(element: ETree.Element) -> Platform:
-    fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector}
-    field_renames = {'texture': 'texture_name'}
+    fields = {'texture': str, 'texture_pos': _parse_vector}
+    field_renames = {'texture': 'texture_name', 'v': 'vertices'}
     defaults = {'texture_pos': Vector(0, 0)}
-    return _parse(element, Platform, fields, field_renames, defaults)
+    child_nodes = {'v': _parse_platform_vertex}
+    return _parse(element, Platform, fields, field_renames, defaults, child_nodes)
 
 
 def _parse_vector(val: str) -> Vector:
@@ -93,13 +100,23 @@ def _parse_vector(val: str) -> Vector:
     return Vector(x, y)
 
 
-def _parse(element: ETree.Element, constructor, fields, field_renames=None, defaults=None):
+def _parse_platform_vertex(element: ETree.Element) -> Vector:
+    return _parse_vector(element.attrib['pos'])
+
+
+def _parse(element: ETree.Element, constructor, fields, field_renames=None, defaults=None, child_nodes=None):
+    if child_nodes is None:
+        child_nodes = dict()
     if defaults is None:
         defaults = dict()
     if field_renames is None:
         field_renames = dict()
 
     constructor_dict = dict()
+    for child_node in child_nodes:
+        field_name = field_renames.get(child_node, child_node)
+        constructor_dict[field_name] = []
+
     for field in fields:
         value = None
         if field not in element.attrib:
@@ -109,4 +126,10 @@ def _parse(element: ETree.Element, constructor, fields, field_renames=None, defa
         else:
             value = fields[field](element.attrib[field])
         constructor_dict[field_renames.get(field, field)] = value
+
+    for child in element:
+        if child.tag not in child_nodes:
+            raise ParseError(f"{child.tag} not specified in a list of allowed children for {constructor.__name__}")
+        field_name = field_renames.get(child.tag, child.tag)
+        constructor_dict[field_name].append(child_nodes[child.tag](child))
     return constructor(**constructor_dict)

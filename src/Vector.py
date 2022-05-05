@@ -76,3 +76,7 @@ class Vector:
             return other1.x <= self.x <= other2.x and other1.y <= self.y <= other2.y
         else:
             return other1.x <= self.x <= other2.x and other1.y >= self.y >= other2.y
+
+
+def get_sized_box(size: Vector):
+    return [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]
