@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <level background="sky0">
-    <platform position="0,0" size="10,2" texture="grass0"/>
-    <platform position="10,-3" size="2,5" texture="wall0" texture_pos="100,100"/>
-    <platform position="-2,-3" size="2,5" texture="wall0"/>
-    <disappearing_platform position="5,-5" size="2,5" texture="grass0" time="3"/>
-    <checkpoint position="2,-5" size="2,10" id="1"/>
-    <checkpoint position="8,-5" size="2,10" id="2"/>
+    <platform texture="grass0">
+        <v pos="0,0"/>
+        <v pos="10,0"/>
+        <v pos="10,2"/>
+        <v pos="0,2"/>
+    </platform>
+    <platform texture="wall0" texture_pos="100,100">
+        <v pos="10,-3"/>
+        <v pos="12,-3"/>
+        <v pos="12,2"/>
+        <v pos="10,2"/>
+    </platform>
+    <platform texture="wall0">
+        <v pos="-2,-3"/>
+        <v pos="0,-3"/>
+        <v pos="0,2"/>
+        <v pos="-2,2"/>
+    </platform>
+    <disappearing_platform texture="grass0" time="3">
+        <v pos="5,-5"/>
+        <v pos="7,-5"/>
+        <v pos="7,0"/>
+        <v pos="5,0"/>
+    </disappearing_platform>
+    <checkpoint position="2,-5" size="2,10" id="1">
+
+    </checkpoint>
+    <checkpoint position="8,-5" size="2,10" id="2">
+
+    </checkpoint>
 </level>
