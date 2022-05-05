@@ -4,6 +4,15 @@
     <platform position="10,-3" size="2,5" texture="wall0" texture_pos="100,100"/>
     <platform position="-2,-3" size="2,5" texture="wall0"/>
     <disappearing_platform position="5,-5" size="2,5" texture="grass0" time="3"/>
+    <moving_platform position="10,-10" size="4,2" texture="grass0" start_position="10,-10" end_position="15,-10" speed="5"/>
+    <moving_platform position="10,10" size="4,2" texture="grass0" start_position="10,10" end_position="10,15" speed="5"/>
+    <moving_platform position="-10,-10" size="4,2" texture="grass0" start_position="-15,-15" end_position="-10,-10" speed="5"/>
+    <moving_platform position="-10,10" size="4,2" texture="grass0" start_position="-20,15" end_position="-10,10" speed="5"/>
+    <changing_size_platform position="20,20" size="4,2" texture="grass0" max_size="8,2" min_size="4,2" speed="5"/>
+    <changing_size_platform position="10,20" size="4,2" texture="grass0" max_size="4,6" min_size="4,2" speed="5"/>
+    <changing_size_platform position="0,20" size="4,2" texture="grass0" max_size="8,6" min_size="4,2" speed="5"/>
+    <changing_size_platform position="-20,20" size="6,2" texture="grass0" max_size="2,6" min_size="6,2" speed="5"/>
+
     <checkpoint position="2,-5" size="2,10" id="1"/>
     <checkpoint position="8,-5" size="2,10" id="2"/>
 </level>

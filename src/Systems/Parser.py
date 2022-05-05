@@ -52,7 +52,7 @@ def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
 
 def _parse_changing_size_platform(element: ETree.Element) -> ChangingSizePlatform:
     fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
-              'max_size': _parse_vector, 'min_size': _parse_vector, 'speed': _parse_vector}
+              'max_size': _parse_vector, 'min_size': _parse_vector, 'speed': float}
     field_renames = {'texture': 'texture_name'}
     defaults = {'texture_pos': Vector(0, 0)}
     return _parse(element, ChangingSizePlatform, fields, field_renames, defaults)
@@ -68,7 +68,7 @@ def _parse_disappearing_platform(element: ETree.Element) -> DisappearingPlatform
 
 def _parse_moving_platform(element: ETree.Element) -> MovingPlatform:
     fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
-              'start_position': _parse_vector, 'end_position': _parse_vector, 'speed': _parse_vector}
+              'start_position': _parse_vector, 'end_position': _parse_vector, 'speed': float}
     field_renames = {'texture': 'texture_name'}
     defaults = {'texture_pos': Vector(0, 0)}
     return _parse(element, MovingPlatform, fields, field_renames, defaults)
