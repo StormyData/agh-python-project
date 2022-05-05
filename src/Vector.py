@@ -67,7 +67,7 @@ class Vector:
     def from_tuple(tuple):
         return Vector(tuple[0], tuple[1])
 
-     def is_between(self, other1, other2):
+    def is_between(self, other1, other2):
         if not isinstance(other1, Vector) and not isinstance(other2, Vector):
             return NotImplemented
         if other1.x > other2.x:
