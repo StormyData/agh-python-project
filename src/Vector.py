@@ -67,6 +67,16 @@ class Vector:
     def from_tuple(tuple):
         return Vector(tuple[0], tuple[1])
 
+     def is_between(self, other1, other2):
+        if not isinstance(other1, Vector) and not isinstance(other2, Vector):
+            return NotImplemented
+        if other1.x > other2.x:
+            other1, other2 = other2, other1
+        if other1.y <= other2.y:
+            return other1.x <= self.x <= other2.x and other1.y <= self.y <= other2.y
+        else:
+            return other1.x <= self.x <= other2.x and other1.y >= self.y >= other2.y
+
 
 def get_sized_box(size: Vector):
     return [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]

@@ -26,7 +26,7 @@ class Game:
             dt = (curr_time - last_time) / 1000
             last_time = curr_time
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     run = False
             self.controller.update(dt)
             level.update(dt)
