@@ -33,31 +33,32 @@ class Platform(LevelObject):
 
 
 class ChangingSizePlatform(Platform):
-    def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector,
-                 speed: Vector, texture_pos: Vector = Vector(0, 0)):
-        super(ChangingSizePlatform, self).__init__([v + position for v in get_sized_box(size)], texture_name, texture_pos)
-        self.size = size
+    def __init__(self, vertices: List[Vector], init_size: float, texture_name: str, max_size: float, min_size: float,
+                 speed: float, texture_pos: Vector = Vector(0, 0)):
+        super(ChangingSizePlatform, self).__init__(vertices, texture_name, texture_pos)
+        self.center = sum(vertices, Vector(0, 0)) / len(vertices)
+        self.base_vertices = [(v-self.center) / init_size for v in vertices]
+        self.base_texture_pos = (texture_pos - self.center) / init_size
+        self.size = init_size
         self.max_size = max_size
         self.min_size = min_size
         self.speed = speed
-        self.enlarge = True
-        self.forward = False
+        self.shrink = False
 
     def check_size_limit(self):
-        if self.size.x >= self.max_size.x or self.size.y >= self.max_size.y:
-            self.forward = True
-        elif self.size.x <= self.min_size.x or self.size.y <= self.min_size.y:
-            self.forward = False
+        if self.size >= self.max_size:
+            self.shrink = True
+        elif self.size <= self.min_size:
+            self.shrink = False
 
     def update(self, dt):
         self.check_size_limit()
-        if self.enlarge:
-            self.size += self.speed * dt
-            self.position += self.speed * dt / 2
-        else:
-            self.size -= self.speed * dt
-            self.position -= self.speed * dt / 2
-        self.collider.resetup([self.position + v for v in get_sized_box(self.size)])
+        ds = self.speed * dt
+        if self.shrink:
+            ds *= -1
+        self.size += ds
+        self.vertices = [self.size * v + self.center for v in self.base_vertices]
+        self.collider.resetup(self.vertices)
         self._recalc_bounding_box()
 
 

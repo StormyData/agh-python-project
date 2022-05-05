@@ -46,16 +46,20 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
 
 
 def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
-    fields = {'position': _parse_vector, 'size': _parse_vector}
-    return _parse(element, Checkpoint, fields)
+    fields = {'id': str, 'tele_to': _parse_vector}
+    child_nodes = {'v': _parse_platform_vertex}
+    field_renames = {'v': 'vertices'}
+    return _parse(element, Checkpoint, fields, field_renames, child_nodes=child_nodes)
 
 
 def _parse_changing_size_platform(element: ETree.Element) -> ChangingSizePlatform:
-    fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'texture_pos': _parse_vector,
-              'max_size': _parse_vector, 'min_size': _parse_vector, 'speed': _parse_vector}
-    field_renames = {'texture': 'texture_name'}
-    defaults = {'texture_pos': Vector(0, 0)}
-    return _parse(element, ChangingSizePlatform, fields, field_renames, defaults)
+    fields = {'init_size': float, 'texture': str, 'texture_pos': _parse_vector,
+              'max_size': float, 'min_size': float, 'speed': float}
+    field_renames = {'texture': 'texture_name', 'v': 'vertices'}
+
+    child_nodes = {'v': _parse_platform_vertex}
+    defaults = {'texture_pos': Vector(0, 0), 'init_size': 1}
+    return _parse(element, ChangingSizePlatform, fields, field_renames, defaults,child_nodes)
 
 
 def _parse_disappearing_platform(element: ETree.Element) -> DisappearingPlatform:
