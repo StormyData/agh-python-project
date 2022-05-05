@@ -1,6 +1,5 @@
 from typing import List
 
-from src.LevelObjects.Entities import Player
 from src.LevelObjects.LevelObject import LevelObject
 from src.Vector import Vector
 from src.Physics import Collider
@@ -15,7 +14,7 @@ class Checkpoint(LevelObject):
         self.collider = Collider(self.vertices)
         self.tele_to = tele_to
 
-    def check_collision(self, player: Player):
+    def check_collision(self, player):
         if self.collider.collides(player.get_collider()):
             player.set_last_checkpoint(self)
 

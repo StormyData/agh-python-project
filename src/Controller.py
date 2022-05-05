@@ -30,4 +30,6 @@ class Controller:
             if self.player.facing_left:
                 self.player.flip()
             self.player.move(Vector(-self.player_speed, 0))
+        if pressed[pygame.K_HOME]:
+            self.player.teleport_to_last_checkpoint()
         # self.player.update(dt)

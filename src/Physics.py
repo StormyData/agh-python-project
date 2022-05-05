@@ -10,6 +10,10 @@ class Physics:
         self.speed = Vector(0, 0)
         self._reset()
 
+    def reset(self):
+        self.speed = Vector(0, 0)
+        self._reset()
+
     def _reset(self):
         self._delta_pos = Vector(0, 0)
         self._collision_vector = Vector(0, 0)

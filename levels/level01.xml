@@ -24,13 +24,13 @@
         <v pos="7,0"/>
         <v pos="5,0"/>
     </disappearing_platform>
-    <checkpoint id="1" tele_to="3,0">
+    <checkpoint id="1" tele_to="3,-5">
         <v pos = "2,-5" />
         <v pos = "4,-5" />
         <v pos = "4,5" />
         <v pos = "2,5" />
     </checkpoint>
-    <checkpoint id="2" tele_to="9,0">
+    <checkpoint id="2" tele_to="9,-5">
         <v pos = "8,-5" />
         <v pos = "10,-5" />
         <v pos = "10,5" />
