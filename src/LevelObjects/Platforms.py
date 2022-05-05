@@ -1,15 +1,16 @@
 from src.LevelObjects.LevelObject import LevelObject
 from src.Physics import Collider
-from src.Vector import Vector
+from src.Vector import Vector, get_sized_box
 
 
 class Platform(LevelObject):
     def __init__(self, position: Vector, size: Vector, texture_name: str, texture_pos: Vector = Vector(0, 0)):
         super().__init__(position)
-        self.size = size
+        self.vertices = [v + position for v in get_sized_box(size)]
         self.texture_name = texture_name
         self.texture_pos = texture_pos
-        self.collider = Collider(position, size)
+        self.collider = Collider(self.vertices)
+        self.bounding_box = (position, position + size)
 
     def get_collider(self) -> Collider:
         return self.collider
@@ -17,15 +18,27 @@ class Platform(LevelObject):
     def update(self, dt: float):
         pass
 
+    def get_bounding_box(self) -> (Vector, Vector):
+        return self.bounding_box
+
+    def _recalc_bounding_box(self):
+        min_x = min(self.vertices, key=lambda v: v.x)
+        max_x = max(self.vertices, key=lambda v: v.x)
+        min_y = min(self.vertices, key=lambda v: v.y)
+        max_y = max(self.vertices, key=lambda v: v.y)
+        self.bounding_box = (Vector(min_x, min_y), Vector(max_x, max_y))
+
 
 class ChangingSizePlatform(Platform):
     def __init__(self, position: Vector, size: Vector, texture_name: str, max_size: Vector, min_size: Vector,
                  speed: Vector, texture_pos: Vector = Vector(0, 0)):
         super(ChangingSizePlatform, self).__init__(position, size, texture_name, texture_pos)
+        self.size = size
         self.max_size = max_size
         self.min_size = min_size
         self.speed = speed
         self.enlarge = True
+        self.forward = False
 
     def check_size_limit(self):
         if self.size.x >= self.max_size.x or self.size.y >= self.max_size.y:
@@ -41,7 +54,8 @@ class ChangingSizePlatform(Platform):
         else:
             self.size -= self.speed * dt
             self.position -= self.speed * dt / 2
-        self.collider.resetup(self.position, self.size)
+        self.collider.resetup([self.position + v for v in get_sized_box(self.size)])
+        self._recalc_bounding_box()
 
 
 class DisappearingPlatform(Platform):
@@ -58,6 +72,7 @@ class DisappearingPlatform(Platform):
             return
         self.timer = 0
         self.visible = not self.visible
+
     def get_collider(self) -> Collider | None:
         if self.visible:
             return self.collider
@@ -91,3 +106,4 @@ class MovingPlatform(Platform):
         else:
             self.position -= self.speed * dt
             self.collider.move_by(-self.speed * dt)
+        self._recalc_bounding_box()

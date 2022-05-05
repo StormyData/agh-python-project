@@ -1,6 +1,6 @@
 from src.LevelObjects.LevelObject import LevelObject
 from src.Physics import Physics, Collider
-from src.Vector import Vector
+from src.Vector import Vector, get_sized_box
 
 
 class Entity(LevelObject):
@@ -13,7 +13,7 @@ class Entity(LevelObject):
         self.size = size
         self.texture_name = texture_name
         self.physics = Physics()
-        self.collider = Collider(position, size)
+        self.collider = Collider([position + v for v in get_sized_box(size)])
         self.on_ground = False
         self.last_on_ground = False
 
@@ -44,6 +44,9 @@ class Entity(LevelObject):
 
     def get_collider(self) -> Collider:
         return self.collider
+
+    def get_bounding_box(self) -> (Vector, Vector):
+        return self.position, self.position + self.size
 
 
 class Monster(Entity):

@@ -66,3 +66,7 @@ class Vector:
     @staticmethod
     def from_tuple(tuple):
         return Vector(tuple[0], tuple[1])
+
+
+def get_sized_box(size: Vector):
+    return [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]

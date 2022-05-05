@@ -1,3 +1,5 @@
+from typing import List
+
 from src.Vector import Vector
 
 
@@ -45,9 +47,9 @@ class Physics:
 
 
 class Collider:
-    def __init__(self, pos: Vector, size: Vector):
-        self.pos = pos
-        self.vertices = [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]
+    def __init__(self, vertices: List[Vector]):
+        self.pos = Vector(0, 0)
+        self.vertices = vertices.copy()
         self.min_max_arr = None
         self.min_max_arr_dirty = True
 
@@ -77,9 +79,9 @@ class Collider:
     def move_by(self, distance: Vector) -> None:
         self.pos += distance
 
-    def resetup(self, pos: Vector, size: Vector):
-        self.pos = pos
-        self.vertices = [Vector(0, 0), Vector(0, size.y), Vector(size.x, size.y), Vector(size.x, 0)]
+    def resetup(self, verices: List[Vector]):
+        self.pos = Vector(0, 0)
+        self.vertices = verices.copy()
         self.min_max_arr_dirty = True
 
     def _update_pos(self):

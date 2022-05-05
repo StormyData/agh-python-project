@@ -47,18 +47,16 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
 
 def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
     texture = AssetLoader.get_singleton().get_image(platform.texture_name)
-    offset_position = platform.position + offset
+    bb = platform.get_bounding_box()
+    offset_lu = bb[0] + offset
+    offset_rd = bb[1] + offset
     width, height = surface.get_size()
-    if offset_position.x > width or offset_position.x + platform.size.x < 0 or \
-            offset_position.y > height or offset_position.y + platform.size.y < 0:
+    if offset_lu.x > width or offset_rd.x < 0 or \
+            offset_lu.y > height or offset_rd.y < 0:
         return
-    pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
-                                              (offset_position.x, offset_position.y + platform.size.y),
-                                              (offset_position.x + platform.size.x,
-                                               offset_position.y + platform.size.y),
-                                              (offset_position.x + platform.size.x, offset_position.y)],
-                                    texture, int(offset_position.x + platform.texture_pos.x),
-                                    int(-offset_position.y + platform.texture_pos.y))
+    pygame.gfxdraw.textured_polygon(surface, [(v + offset).as_tuple() for v in platform.vertices],
+                                    texture, int(offset_lu.x + platform.texture_pos.x),
+                                    int(-offset_lu.y + platform.texture_pos.y))
     if draw_collisions:
         collider = platform.get_collider()
         pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
@@ -76,7 +74,7 @@ def draw_entity(entity: Entity, surface: pygame.Surface, offset: Vector):
 def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
     if draw_speed:
         textsurface = font.render(str(player.physics.speed), False, (0, 0, 0))
-        surface.blit(textsurface,(0,0))
+        surface.blit(textsurface,(0, 0))
     texture = AssetLoader.get_singleton().get_image(player.texture_name)
     offset_position = player.position + offset
     width, height = surface.get_size()
