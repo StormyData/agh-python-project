@@ -55,7 +55,7 @@ def draw_menu(surface: pygame.Surface):
             if play_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
                 return "levels/level01.xml"
             if options_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
-                return "levels/level_platform_test.xml"
+                return "levels/level_monsters.xml"
             if quit_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
                 pygame.quit()
                 sys.exit()

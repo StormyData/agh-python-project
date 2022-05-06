@@ -8,7 +8,7 @@ from src.LevelObjects.Checkpoint import Checkpoint
 
 class Entity(LevelObject):
 
-    jump_force = Vector(0, 40000)
+    jump_force = Vector(0, 20000)
     gravity = Vector(0, -500)
 
     def __init__(self, position: Vector, size: Vector, texture_name: str):

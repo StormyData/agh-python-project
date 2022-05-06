@@ -16,8 +16,13 @@ class Game:
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.player = Player(Vector(10, -100), Vector(40, 40), {'idle': 'player_idle', 'walk': 'player_walk'})
         self.controller = Controller(self.player)
-        self.main_menu()
+        self.main()
 
+    def main(self):
+        f = self.main_menu
+        args = tuple()
+        while f is not None:
+            f, args = f(*args)
 
     def main_menu(self):
         run = True
@@ -27,13 +32,14 @@ class Game:
             option = draw_menu(self.window)
             if option is not None:
                 level = parse_file(option)
-                return self.load_level(level)
+                return self.load_level, (level,)
             pygame.display.update()
 
         pygame.quit()
 
-    def load_level(self, level):
-        self.player.set_position(level.initial_player_pos)
+    def load_level(self, level, reset=True):
+        if reset:
+            self.player.set_position(level.initial_player_pos)
         clock = pygame.time.Clock()
         self.monster_AI = MonsterAI(level.entities)
         run = True
@@ -41,7 +47,7 @@ class Game:
             dt = clock.tick(60) / 1000
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    self.escape_panel(level)
+                    return self.escape_panel ,(level, )
                 elif event.type == pygame.QUIT:
                     exit(0)
             self.controller.update(dt)
@@ -77,12 +83,12 @@ class Game:
             option = draw_escape_panel(self.window)
             if option is not None:
                 if option == "resume":
-                    return self.load_level(curr_level)
+                    return self.load_level, (curr_level, False)
                 if option == "retry":
                     level = parse_file(curr_level.level_name)
-                    return self.load_level(level)
+                    return self.load_level, (level,)
                 if option == "menu":
-                    return self.main_menu()
+                    return self.main_menu, tuple()
 
 
             pygame.display.update()
