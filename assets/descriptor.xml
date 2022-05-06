@@ -4,5 +4,17 @@
     <img name="wall0" path="assets/wall0.jpg" from="https://opengameart.org/content/black-brick-wall-512px"/>
     <img name="sky0" path="assets/sky.png" from="https://opengameart.org/content/starsspace-background"/>
     <img name="player" path="assets/player.jpg" from="https://opengameart.org/content/alien-green-character-sprite"/>
-
+    <anim name="player_idle" from="https://opengameart.org/content/alien-green-character-sprite">
+        <img path="assets/alien_green/green__0000_idle_1.png"/>
+        <img path="assets/alien_green/green__0001_idle_2.png"/>
+        <img path="assets/alien_green/green__0002_idle_3.png"/>
+    </anim>
+    <anim name ="player_walk" from="https://opengameart.org/content/alien-green-character-sprite">
+        <img path="assets/alien_green/green__0006_walk_1.png"/>
+        <img path="assets/alien_green/green__0007_walk_2.png"/>
+        <img path="assets/alien_green/green__0008_walk_3.png"/>
+        <img path="assets/alien_green/green__0009_walk_4.png"/>
+        <img path="assets/alien_green/green__0010_walk_5.png"/>
+        <img path="assets/alien_green/green__0011_walk_6.png"/>
+    </anim>
 </assets>

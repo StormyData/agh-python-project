@@ -2,6 +2,10 @@ import xml.etree.ElementTree as ETree
 
 from pygame import Surface, image
 
+from src.Drawing.Animation import AnimationBuffer, AnimationFrame
+from src.Systems.Parser import _parse_vector
+from src.Vector import Vector
+
 
 class AssetLoader:
     _instance = None
@@ -15,6 +19,8 @@ class AssetLoader:
     def __init__(self):
         self._images = dict()
         self._image_names_to_paths = dict()
+        self._animations = dict()
+        self._animation_names_to_paths = dict()
 
     def load_paths(self, fp: str):
         tree = ETree.parse(fp)
@@ -24,13 +30,42 @@ class AssetLoader:
         for child in root:
             match child.tag:
                 case "img":
-                    if 'path' not in child.attrib:
-                        raise ValueError("img is missing attribute: path")
-                    if 'name' not in child.attrib:
-                        raise ValueError("img is missing attribute: name")
-                    self._image_names_to_paths[child.attrib['name']] = child.attrib['path']
+                    self._read_img(child)
+                case "anim":
+                    self._read_anim(child)
                 case _:
                     pass  # ignore
+
+    def _read_anim(self, child: ETree.Element):
+        if 'name' not in child.attrib:
+            raise ValueError("anim is missing attribute: name")
+        content = []
+        for c in child:
+            if c.tag != "img":
+                raise ValueError("unrecognized type of child in anim")
+            if 'path' not in c.attrib:
+                raise ValueError("frame doesn't have a path")
+            offset = Vector(0, 0)
+            if 'offset' in c.attrib:
+                offset = _parse_vector(c.attrib['offset'])
+            length = 1
+            if 'len' in c.attrib:
+                length = float(c.attrib['len'])
+            content.append(AnimationFrame(c.attrib['path'], length, offset))
+        self._animation_names_to_paths[child.attrib['name']] = AnimationBuffer(content)
+
+    def _read_img(self, child: ETree.Element):
+        if 'path' not in child.attrib:
+            raise ValueError("img is missing attribute: path")
+        if 'name' not in child.attrib:
+            raise ValueError("img is missing attribute: name")
+        self._image_names_to_paths[child.attrib['name']] = child.attrib['path']
+
+    def _load_anim(self, name: str):
+        frames = self._animation_names_to_paths[name].frames
+        for i in range(len(frames)):
+            frames[i].img = image.load(frames[i].img, "")
+        self._animations[name] = self._animation_names_to_paths[name]
 
     def get_image(self, name: str) -> Surface:
         if name not in self._images:
@@ -38,6 +73,13 @@ class AssetLoader:
                 raise ValueError(f"unknown image name: {name}")
             self._images[name] = image.load(self._image_names_to_paths[name], "")
         return self._images[name]
+
+    def get_animation_buffer(self, name: str) -> AnimationBuffer:
+        if name not in self._animations:
+            if name not in self._animation_names_to_paths:
+                raise ValueError(f"unknown animation name: {name}")
+            self._load_anim(name)
+        return self._animations[name]
 
     def get_sound_buffer(self, name: str) -> bytes:
         pass

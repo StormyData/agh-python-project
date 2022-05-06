@@ -1,5 +1,6 @@
 import pygame
 import pygame.gfxdraw
+import pygame.transform
 
 from src.Level import Level
 from src.LevelObjects.Entities import Entity, Player
@@ -66,8 +67,9 @@ def draw_checkpoint(checkpoint: Checkpoint, surface: pygame.Surface, offset: Vec
     if draw_checkpoints:
         pygame.draw.polygon(surface, (0, 255, 0), [(v + offset).as_tuple() for v in checkpoint.vertices])
 
+
 def draw_entity(entity: Entity, surface: pygame.Surface, offset: Vector):
-    pass
+    raise RuntimeError("Not implemented")
 
 
 def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
@@ -82,21 +84,26 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
             surface.blit(textsurface, (0, text_height))
             text_height += textsurface.get_height()
 
-    texture = AssetLoader.get_singleton().get_image(player.texture_name)
-    offset_position = player.position + offset
-    width, height = surface.get_size()
-    if offset_position.x > width or offset_position.x + player.size.x < 0 or \
-            offset_position.y > height or offset_position.y + player.size.y < 0:
-        return
-    pygame.draw.rect(surface, (0, 0, 255),
-                     (player.position.x + offset.x, player.position.y + offset.y, player.size.x, player.size.y))
+    if player.curr_anim is not None:
 
+        texture, texture_offset = player.curr_anim.get_frame()
+
+        offset_position = player.position + offset
+        width, height = surface.get_size()
+        if offset_position.x > width or offset_position.x + player.size.x < 0 or \
+                offset_position.y > height or offset_position.y + player.size.y < 0:
+            return
+        #(player.size.x/texture.get_width(), player.size.y/texture.get_height())
+        surface.blit(
+            pygame.transform.flip(
+            pygame.transform.scale(texture, player.size.as_tuple()),player.facing_left, False),
+            (offset_position - texture_offset).as_tuple())
         # pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
-    #                                           (offset_position.x, offset_position.y + player.size.y),
-    #                                           (offset_position.x + player.size.x,
-    #                                            offset_position.y + player.size.y),
-    #                                           (offset_position.x + player.size.x, offset_position.y)],
-    #                                 texture, 0, 0)
+        #                                       (offset_position.x, offset_position.y + player.size.y),
+        #                                       (offset_position.x + player.size.x,
+        #                                        offset_position.y + player.size.y),
+        #                                       (offset_position.x + player.size.x, offset_position.y)],
+        #                             texture, int(texture_offset.x), int(-texture_offset.y))
     if draw_collisions:
         collider = player.get_collider()
         pygame.draw.polygon(surface, (0, 255, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])

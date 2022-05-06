@@ -1,5 +1,7 @@
+from src.Drawing.Animation import Animation
 from src.LevelObjects.LevelObject import LevelObject
 from src.Physics import Physics, Collider
+from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector, get_sized_box
 from src.LevelObjects.Checkpoint import Checkpoint
 
@@ -55,16 +57,31 @@ class Monster(Entity):
 
 
 class Player(Entity):
-    def __init__(self, position: Vector, size: Vector, texture_name: str):
-        super().__init__(position, size, texture_name)
+    def __init__(self, position: Vector, size: Vector, anims: dict[str, str]):
+        super().__init__(position, size, "")
         self.facing_left = True
         self.last_checkpoint: Checkpoint | None = None
+        self.anims = dict()
+        for anim in anims:
+            self.anims[anim] = Animation(AssetLoader.get_singleton().get_animation_buffer(anims[anim]))
+        self.curr_anim = self.anims['idle']
+        self.curr_anim: Animation | None
 
     def flip(self):
         self.facing_left = not self.facing_left
 
-    # def move(self, distance: Vector):
-    #     self.position += distance
+    def update(self, dt: float):
+        super().update(dt)
+        if abs(self.physics.speed.x) > 0.1:
+            if self.curr_anim != self.anims['walk']:
+                self.curr_anim = self.anims['walk']
+                self.curr_anim.reset()
+        else:
+            if self.curr_anim != self.anims['idle']:
+                self.curr_anim = self.anims['idle']
+                self.curr_anim.reset()
+        self.curr_anim.update(dt)
+
     def set_last_checkpoint(self, checkpoint):
         if self.last_checkpoint != checkpoint:
             self.last_checkpoint = checkpoint
