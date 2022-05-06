@@ -20,6 +20,11 @@ pygame.font.init()
 font = pygame.font.SysFont('Arial', 30)
 
 
+def draw_fps(surface: pygame.Surface, fps: float):
+    textsurface = font.render(f"fps={fps:0.2f}", False, (0, 0, 0))
+    surface.blit(textsurface, (surface.get_width() - textsurface.get_width(), 0))
+
+
 def draw_menu(surface: pygame.Surface):
     background = AssetLoader.get_singleton().get_image("alien3")
     width = surface.get_width()
@@ -99,7 +104,6 @@ def draw_level(level: Level, surface: pygame.Surface, offset: Vector):
 
     for game_object in level.objects:
         draw_level_object(game_object, surface, offset)
-
 
 
 def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset: Vector):

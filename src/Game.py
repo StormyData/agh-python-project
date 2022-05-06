@@ -2,7 +2,7 @@ import pygame
 
 from src.Systems.Parser import parse_file
 from src.Controller import Controller, MonsterAI
-from src.Drawing.Drawers import draw_menu, draw_level, draw_escape_panel, draw_player
+from src.Drawing.Drawers import draw_menu, draw_level, draw_escape_panel, draw_player, draw_fps
 from src.LevelObjects.Entities import Player, Monster
 from src.LevelObjects.Platforms import Platform
 from src.Vector import Vector
@@ -64,6 +64,9 @@ class Game:
             window.fill((0, 0, 0))
             draw_level(level, window, offset)
             draw_player(self.player, window, offset)
+            fps = 1.0 / dt if dt != 0 else 0.0
+            draw_fps(window, fps)
+
             pygame.display.update()
 
         pygame.quit()
