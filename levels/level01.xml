@@ -38,9 +38,9 @@
     </checkpoint>
     <changing_size_platform texture="wall0" max_size="2" min_size="0.5" speed="0.5" texture_pos="100,100">
         <v pos="-2,-10"/>
+        <v pos="-2,-5"/>
         <v pos="0,-10"/>
         <v pos="0,-12"/>
-        <v pos="-1,-14"/>
         <v pos="-2,-12"/>
     </changing_size_platform>
 </level>

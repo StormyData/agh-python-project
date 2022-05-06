@@ -38,7 +38,7 @@ class Physics:
                     self.speed.x = 0
                 if self._collision_vector.y * self.speed.y < 0:
                     self.speed.y = 0
-            self._delta_pos += self._collision_vector - self._collision_vector.normalized() * 0.1
+            self._delta_pos += self._collision_vector - self._collision_vector.normalized() * 0.01
 
         # position
         self._delta_pos += self.speed * dt

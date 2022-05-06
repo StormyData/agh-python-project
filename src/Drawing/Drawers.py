@@ -13,7 +13,7 @@ from src.LevelObjects.Checkpoint import Checkpoint
 from src.LevelObjects.Entities import Monster
 
 draw_collisions = False
-draw_speed = True
+draw_speed = False
 draw_checkpoints = True
 
 pygame.font.init()

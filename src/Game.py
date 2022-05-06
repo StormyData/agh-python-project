@@ -44,6 +44,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.escape_panel(level)
+                elif event.type == pygame.QUIT:
+                    exit(0)
             self.controller.update(dt)
             self.monster_AI.update(self.player.position, Game.screen_width, Game.screen_height, dt)
             level.update(dt)

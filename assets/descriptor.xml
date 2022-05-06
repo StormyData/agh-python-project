@@ -13,9 +13,10 @@
     <img name="alien7" path="assets/alien_07.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
     <img name="player" path="assets/player.jpg" from="https://opengameart.org/content/alien-green-character-sprite"/>
     <anim name="player_idle" from="https://opengameart.org/content/alien-green-character-sprite">
-        <img path="assets/alien_green/green__0000_idle_1.png" len="0.25"/>
+        <img path="assets/alien_green/green__0000_idle_1.png" len="1"/>
         <img path="assets/alien_green/green__0001_idle_2.png" len="0.25"/>
         <img path="assets/alien_green/green__0002_idle_3.png" len="0.25"/>
+        <img path="assets/alien_green/green__0001_idle_2.png" len="0.25"/>
     </anim>
     <anim name ="player_walk" from="https://opengameart.org/content/alien-green-character-sprite">
         <img path="assets/alien_green/green__0006_walk_1.png" len="0.25"/>
