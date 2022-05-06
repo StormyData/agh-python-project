@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ETree
 from src.Level import Level
 from src.LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
 from src.LevelObjects.Checkpoint import Checkpoint
+from src.LevelObjects.Entities import Monster
 from src.Vector import Vector
 
 vector_scale = 16
@@ -14,10 +15,10 @@ class ParseError(Exception):
 
 def parse_file(filename: str) -> Level:
     tree = ETree.parse(filename)
-    return _parse_level(tree)
+    return _parse_level(tree, filename)
 
 
-def _parse_level(tree: ETree.ElementTree) -> Level:
+def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
     root = tree.getroot()
     if root.tag != "level":
         raise ParseError("root node is not level")
@@ -40,9 +41,11 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
                 contents.add(_parse_changing_size_platform(child))
             case "checkpoint":
                 contents.add(_parse_checkpoint(child))
+            case "monster":
+                contents.add(_parse_monster(child))
             case _:
                 raise ParseError("unknown level element")
-    return Level(contents, bg)
+    return Level(contents, bg, filename)
 
 
 def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
@@ -86,6 +89,12 @@ def _parse_platform(element: ETree.Element) -> Platform:
     defaults = {'texture_pos': Vector(0, 0)}
     child_nodes = {'v': _parse_platform_vertex}
     return _parse(element, Platform, fields, field_renames, defaults, child_nodes)
+
+
+def _parse_monster(element: ETree.Element) -> Monster:
+    fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'speed': float}
+    field_renames = {'texture': 'texture_name'}
+    return _parse(element, Monster, fields, field_renames)
 
 
 def _parse_vector(val: str) -> Vector:

@@ -3,6 +3,14 @@
     <img name="grass0" path="assets/grass0.png" from="https://opengameart.org/content/hand-painted-grass-texture"/>
     <img name="wall0" path="assets/wall0.jpg" from="https://opengameart.org/content/black-brick-wall-512px"/>
     <img name="sky0" path="assets/sky.png" from="https://opengameart.org/content/starsspace-background"/>
+    <img name="monster" path="assets/monster.png" from="https://opengameart.org/content/free-game-obstacles-spiky-monster-bevouliin-game-asset"/>
+    <img name="alien1" path="assets/alien_01.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
+    <img name="alien2" path="assets/alien_02.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
+    <img name="alien3" path="assets/alien_03.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
+    <img name="alien4" path="assets/alien_04.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
+    <img name="alien5" path="assets/alien_05.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
+    <img name="alien6" path="assets/alien_06.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
+    <img name="alien7" path="assets/alien_07.jpg" from="https://opengameart.org/content/weird-alien-textures"/>
     <img name="player" path="assets/player.jpg" from="https://opengameart.org/content/alien-green-character-sprite"/>
     <anim name="player_idle" from="https://opengameart.org/content/alien-green-character-sprite">
         <img path="assets/alien_green/green__0000_idle_1.png"/>

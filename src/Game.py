@@ -1,8 +1,9 @@
 import pygame
 
-from src.Controller import Controller
-from src.Drawing.Drawers import draw_level, draw_player
-from src.LevelObjects.Entities import Player
+from src.Systems.Parser import parse_file
+from src.Controller import Controller, MonsterAI
+from src.Drawing.Drawers import draw_menu, draw_level, draw_escape_panel, draw_player
+from src.LevelObjects.Entities import Player, Monster
 from src.LevelObjects.Platforms import Platform
 from src.Vector import Vector
 from src.LevelObjects.Checkpoint import Checkpoint
@@ -16,10 +17,26 @@ class Game:
     def __init__(self):
         self.player = Player(Vector(10, -100), Vector(40, 40), {'idle': 'player_idle', 'walk': 'player_walk'})
         self.controller = Controller(self.player)
+        self.main_menu()
+
+    def main_menu(self):
+        window = pygame.display.set_mode((self.screen_width, self.screen_height))
+        run = True
+        while run:
+            window.fill((0, 0, 0))
+
+            option = draw_menu(window)
+            if option is not None:
+                level = parse_file(option)
+                return self.load_level(level)
+            pygame.display.update()
+
+        pygame.quit()
 
     def load_level(self, level):
         window = pygame.display.set_mode((self.screen_width, self.screen_height))
         last_time = pygame.time.get_ticks()
+        self.monster_AI = MonsterAI(level.entities)
         run = True
         while run:
             curr_time = pygame.time.get_ticks()
@@ -27,11 +44,16 @@ class Game:
             last_time = curr_time
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    run = False
+                    self.escape_panel(level)
             self.controller.update(dt)
+            self.monster_AI.update(self.player.position, Game.screen_width, Game.screen_height, dt)
             level.update(dt)
             for game_object in level.objects:
                 if isinstance(game_object, Platform):
+                    self.player.calc_collision(game_object.get_collider())
+                    for monster in level.entities:
+                        monster.calc_collision(game_object.get_collider())
+                elif isinstance(game_object, Monster):
                     self.player.calc_collision(game_object.get_collider())
                 elif isinstance(game_object, Checkpoint):
                     game_object.check_collision(self.player)
@@ -44,3 +66,24 @@ class Game:
             pygame.display.update()
 
         pygame.quit()
+
+    def escape_panel(self, curr_level):
+        window = pygame.display.set_mode((self.screen_width, self.screen_height))
+        run = True
+        while run:
+            window.fill((0, 0, 0))
+
+            option = draw_escape_panel(window)
+            if option is not None:
+                if option == "resume":
+                    return self.load_level(curr_level)
+                if option == "retry":
+                    level = parse_file(curr_level.level_name)
+                    return self.load_level(level)
+                if option == "menu":
+                    return self.main_menu()
+
+
+            pygame.display.update()
+
+        return
