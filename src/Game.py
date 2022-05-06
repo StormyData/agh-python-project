@@ -55,7 +55,7 @@ class Game:
                     for monster in level.entities:
                         monster.calc_collision(game_object.get_collider())
                 elif isinstance(game_object, Monster):
-                    self.player.calc_collision(game_object.get_collider())
+                    self.player.calc_collision_monster(game_object.get_collider())
                 elif isinstance(game_object, Checkpoint):
                     game_object.check_collision(self.player)
 

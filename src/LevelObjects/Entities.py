@@ -97,10 +97,14 @@ class Player(Entity):
     def set_last_checkpoint(self, checkpoint):
         if self.last_checkpoint != checkpoint:
             self.last_checkpoint = checkpoint
-            print(f"set new checkpoint {checkpoint}")
+#            print(f"set new checkpoint {checkpoint}")
 
     def teleport_to_last_checkpoint(self):
         if self.last_checkpoint is None:
             return
         self.set_position(self.last_checkpoint.get_tele_to_pos())
+
+    def calc_collision_monster(self, collider: Collider):
+        if self.collider.collides(collider):
+            self.teleport_to_last_checkpoint()
 
