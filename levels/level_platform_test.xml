@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <level background="sky0" initial_player_pos="1,-5">
-    <platform texture="grass0">
+    <platform texture="alien1">
         <v pos="-20,0"/>
         <v pos="-20,2"/>
         <v pos="80,2"/>

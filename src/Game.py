@@ -11,21 +11,20 @@ pygame.init()
 
 
 class Game:
-    screen_width = 1600
-    screen_height = 900
 
     def __init__(self):
+        self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.player = Player(Vector(10, -100), Vector(40, 40), {'idle': 'player_idle', 'walk': 'player_walk'})
         self.controller = Controller(self.player)
         self.main_menu()
 
+
     def main_menu(self):
-        window = pygame.display.set_mode((self.screen_width, self.screen_height))
         run = True
         while run:
-            window.fill((0, 0, 0))
+            self.window.fill((0, 0, 0))
 
-            option = draw_menu(window)
+            option = draw_menu(self.window)
             if option is not None:
                 level = parse_file(option)
                 return self.load_level(level)
@@ -34,7 +33,6 @@ class Game:
         pygame.quit()
 
     def load_level(self, level):
-        window = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.player.set_position(level.initial_player_pos)
         clock = pygame.time.Clock()
         self.monster_AI = MonsterAI(level.entities)
@@ -47,7 +45,7 @@ class Game:
                 elif event.type == pygame.QUIT:
                     exit(0)
             self.controller.update(dt)
-            self.monster_AI.update(self.player.position, Game.screen_width, Game.screen_height, dt)
+            self.monster_AI.update(self.player.position, self.window.get_width(), self.window.get_height(), dt)
             level.update(dt)
             for game_object in level.objects:
                 if isinstance(game_object, Platform):
@@ -60,24 +58,23 @@ class Game:
                     game_object.check_collision(self.player)
 
             self.player.update(dt)
-            offset = -self.player.position + Vector(Game.screen_width, Game.screen_height) * 0.5
-            window.fill((0, 0, 0))
-            draw_level(level, window, offset)
-            draw_player(self.player, window, offset)
+            offset = -self.player.position + Vector.from_tuple(self.window.get_size()) * 0.5
+            self.window.fill((0, 0, 0))
+            draw_level(level, self.window, offset)
+            draw_player(self.player, self.window, offset)
             fps = 1.0 / dt if dt != 0 else 0.0
-            draw_fps(window, fps)
+            draw_fps(self.window, fps)
 
             pygame.display.update()
 
         pygame.quit()
 
     def escape_panel(self, curr_level):
-        window = pygame.display.set_mode((self.screen_width, self.screen_height))
         run = True
         while run:
-            window.fill((0, 0, 0))
+            self.window.fill((0, 0, 0))
 
-            option = draw_escape_panel(window)
+            option = draw_escape_panel(self.window)
             if option is not None:
                 if option == "resume":
                     return self.load_level(curr_level)
