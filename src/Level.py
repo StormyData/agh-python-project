@@ -3,10 +3,11 @@ from src.LevelObjects.Platforms import Platform
 from src.LevelObjects.Entities import Monster
 
 class Level:
-    def __init__(self, objects: [LevelObject], background_texture_name: str):
+    def __init__(self, objects: [LevelObject], background_texture_name: str, level_name: str):
         self.objects = objects
         self._find_entities(objects)
         self.background_texture_name = background_texture_name
+        self.level_name = level_name
 
     def _find_entities(self, objects):
         self.entities = []
@@ -20,3 +21,4 @@ class Level:
                 game_object.update(dt)
             if isinstance(game_object, Monster):
                 game_object.update(dt)
+

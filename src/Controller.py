@@ -46,7 +46,7 @@ class MonsterAI:
             offset = -monster.position + Vector(screen_width, screen_height) * 0.5
             if offset.x > screen_width or offset.x + monster.size.x < 0 or \
                     offset.y > screen_height or offset.y + monster.size.y < 0:
-                return
+                continue
 
             if player_position.x < monster.position.x:
                 if not monster.facing_left:

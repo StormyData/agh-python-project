@@ -1,6 +1,7 @@
-import pygame
+import pygame, sys
 import pygame.gfxdraw
 
+from src.Button import Button
 from src.Level import Level
 from src.LevelObjects.Entities import Entity, Player
 from src.LevelObjects.LevelObject import LevelObject
@@ -18,6 +19,74 @@ pygame.font.init()
 font = pygame.font.SysFont('Arial', 30)
 
 
+def draw_menu(surface: pygame.Surface):
+    background = AssetLoader.get_singleton().get_image("alien3")
+    width = surface.get_width()
+    height = surface.get_height()
+    pygame.gfxdraw.textured_polygon(surface, [(0, 0),
+                                              (0, height),
+                                              (width, height),
+                                              (width, 0)], background, 0, 0)
+
+    menu_name = pygame.font.Font("assets/alien_font.ttf", 100).render("MAIN MENU", True, "#ACF5B3")
+    menu_rect = menu_name.get_rect(center=(width/2, 300))
+    surface.blit(menu_name, menu_rect)
+
+    button_texture = AssetLoader.get_singleton().get_image("alien1")
+    play_button = Button(button_texture, Vector(width/2, 400),
+                         "LEVEL 1", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+    options_button = Button(button_texture, Vector(width/2, 500),
+                            "LEVEL 2", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+    quit_button = Button(button_texture, Vector(width/2, 600),
+                         "QUIT", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+
+    for button in [play_button, options_button, quit_button]:
+        button.changeColor(Vector.from_tuple(pygame.mouse.get_pos()))
+        button.update(surface)
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if play_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "levels/level01.xml"
+            if options_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "levels/level_monsters.xml"
+            if quit_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
+                pygame.quit()
+                sys.exit()
+
+
+def draw_escape_panel(surface: pygame.Surface):
+    background = AssetLoader.get_singleton().get_image("alien3")
+    width = surface.get_width()
+    height = surface.get_height()
+    pygame.gfxdraw.textured_polygon(surface, [(0, 0),
+                                              (0, height),
+                                              (width, height),
+                                              (width, 0)], background, 0, 0)
+
+
+    button_texture = AssetLoader.get_singleton().get_image("alien1")
+    resume_button = Button(button_texture, Vector(width/2, 300),
+                         "RESUME", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+    retry_button = Button(button_texture, Vector(width/2, 400),
+                            "RETRY", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+    menu_button = Button(button_texture, Vector(width/2, 500),
+                         "MAIN MENU", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+
+    for button in [resume_button, retry_button, menu_button]:
+        button.changeColor(Vector.from_tuple(pygame.mouse.get_pos()))
+        button.update(surface)
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if resume_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "resume"
+            if retry_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "retry"
+            if menu_button.checkForInput(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "menu"
+
+
 def draw_level(level: Level, surface: pygame.Surface, offset: Vector):
     background = AssetLoader.get_singleton().get_image(level.background_texture_name)
     width = surface.get_width()
@@ -29,6 +98,7 @@ def draw_level(level: Level, surface: pygame.Surface, offset: Vector):
 
     for game_object in level.objects:
         draw_level_object(game_object, surface, offset)
+
 
 
 def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset: Vector):

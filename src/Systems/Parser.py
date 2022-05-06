@@ -15,10 +15,10 @@ class ParseError(Exception):
 
 def parse_file(filename: str) -> Level:
     tree = ETree.parse(filename)
-    return _parse_level(tree)
+    return _parse_level(tree, filename)
 
 
-def _parse_level(tree: ETree.ElementTree) -> Level:
+def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
     root = tree.getroot()
     if root.tag != "level":
         raise ParseError("root node is not level")
@@ -45,7 +45,7 @@ def _parse_level(tree: ETree.ElementTree) -> Level:
                 contents.add(_parse_monster(child))
             case _:
                 raise ParseError("unknown level element")
-    return Level(contents, bg)
+    return Level(contents, bg, filename)
 
 
 def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
