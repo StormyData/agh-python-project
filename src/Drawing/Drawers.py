@@ -5,7 +5,7 @@ import pygame.transform
 from src.Level import Level
 from src.LevelObjects.Entities import Entity, Player
 from src.LevelObjects.LevelObject import LevelObject
-from src.LevelObjects.Platforms import Platform, DisappearingPlatform
+from src.LevelObjects.Platforms import Platform, DisappearingPlatform, ChangingSizePlatform
 from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector
 from src.LevelObjects.Checkpoint import Checkpoint
@@ -33,6 +33,8 @@ def draw_level(level: Level, surface: pygame.Surface, offset: Vector):
 
 def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset: Vector):
     match level_object:
+        case ChangingSizePlatform() as changing_size_platform:
+            draw_changing_size_platform(changing_size_platform, surface, offset)
         case DisappearingPlatform() as disappearing_platform:
             if disappearing_platform.visible:
                 draw_platform(disappearing_platform, surface, offset)
@@ -44,6 +46,25 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
             draw_entity(entity, surface, offset)
         case Checkpoint() as chheckpoint:
             draw_checkpoint(chheckpoint, surface, offset)
+
+
+def draw_changing_size_platform(platform: ChangingSizePlatform, surface: pygame.Surface, offset: Vector):
+    texture = AssetLoader.get_singleton().get_image(platform.texture_name)
+    scaled_size = Vector.from_tuple(texture.get_size()) * platform.size
+    scaled_texture = pygame.transform.scale(texture, scaled_size.as_tuple())
+    bb = platform.get_bounding_box()
+    offset_lu = bb[0] + offset
+    offset_rd = bb[1] + offset
+    width, height = surface.get_size()
+    if offset_lu.x > width or offset_rd.x < 0 or \
+            offset_lu.y > height or offset_rd.y < 0:
+        return
+    pygame.gfxdraw.textured_polygon(surface, [(v + offset).as_tuple() for v in platform.vertices],
+                                    scaled_texture, int(offset_lu.x + platform.texture_pos.x * platform.size),
+                                    int(-offset_lu.y + platform.texture_pos.y * platform.size))
+    if draw_collisions:
+        collider = platform.get_collider()
+        pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
 
 
 def draw_platform(platform: Platform, surface: pygame.Surface, offset: Vector):
