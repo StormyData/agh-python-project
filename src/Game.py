@@ -35,6 +35,7 @@ class Game:
 
     def load_level(self, level):
         window = pygame.display.set_mode((self.screen_width, self.screen_height))
+        self.player.set_position(level.initial_player_pos)
         last_time = pygame.time.get_ticks()
         self.monster_AI = MonsterAI(level.entities)
         run = True

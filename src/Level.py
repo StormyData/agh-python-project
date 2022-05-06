@@ -1,13 +1,16 @@
 from src.LevelObjects.LevelObject import LevelObject
 from src.LevelObjects.Platforms import Platform
 from src.LevelObjects.Entities import Monster
+from src.Vector import Vector
+
 
 class Level:
-    def __init__(self, objects: [LevelObject], background_texture_name: str, level_name: str):
+    def __init__(self, objects: [LevelObject], background_texture_name: str, level_name: str, initial_player_pos: Vector):
         self.objects = objects
         self._find_entities(objects)
         self.background_texture_name = background_texture_name
         self.level_name = level_name
+        self.initial_player_pos = initial_player_pos
 
     def _find_entities(self, objects):
         self.entities = []

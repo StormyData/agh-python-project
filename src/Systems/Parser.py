@@ -28,6 +28,9 @@ def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
     # if 'name' not in root.attrib:
     #    raise ParseError("level doesn't have a name")
     # name = root.attrib['name']
+    initial_player_pos = Vector(0, 0)
+    if 'initial_player_pos' in root.attrib:
+        initial_player_pos = _parse_vector(root.attrib['initial_player_pos'])
     contents = set()
     for index, child in enumerate(root):
         match child.tag:
@@ -45,7 +48,7 @@ def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
                 contents.add(_parse_monster(child))
             case _:
                 raise ParseError("unknown level element")
-    return Level(contents, bg, filename)
+    return Level(contents, bg, filename, initial_player_pos)
 
 
 def _parse_checkpoint(element: ETree.Element) -> Checkpoint:

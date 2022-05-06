@@ -51,6 +51,12 @@ class Entity(LevelObject):
     def get_bounding_box(self) -> (Vector, Vector):
         return self.position, self.position + self.size
 
+    def set_position(self, new_pos: Vector):
+        dp = new_pos - self.position
+        self.position += dp
+        self.collider.move_by(dp)
+        self.physics.reset()
+
 
 class Monster(Entity):
     def __init__(self, position: Vector, size: Vector, texture_name: str, speed: float):
@@ -96,7 +102,5 @@ class Player(Entity):
     def teleport_to_last_checkpoint(self):
         if self.last_checkpoint is None:
             return
-        dp = self.last_checkpoint.get_tele_to_pos() - self.position
-        self.position += dp
-        self.collider.move_by(dp)
-        self.physics.reset()
+        self.set_position(self.last_checkpoint.get_tele_to_pos())
+

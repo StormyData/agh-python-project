@@ -165,13 +165,10 @@ def draw_monster(monster: Monster, surface: pygame.Surface, offset: Vector):
             offset_position.y > height or offset_position.y + monster.size.y < 0:
         return
 
-    pygame.gfxdraw.textured_polygon(surface, [(offset_position.x, offset_position.y),
-                                          (offset_position.x, offset_position.y + monster.size.y),
-                                          (offset_position.x + monster.size.x,
-                                           offset_position.y + monster.size.y),
-                                          (offset_position.x + monster.size.x, offset_position.y)],
-                                texture, int(offset.x),
-                                    int(-offset.y))
+    surface.blit(
+        pygame.transform.flip(
+            pygame.transform.scale(texture, monster.size.as_tuple()), monster.facing_left, False),
+        (offset_position).as_tuple())
 
     if draw_collisions:
         collider = monster.get_collider()

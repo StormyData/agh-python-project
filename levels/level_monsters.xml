@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<level background="sky0">
+<level background="sky0" initial_player_pos="1,-5">
     <platform texture="grass0">
         <v pos="-20,0"/>
         <v pos="-20,2"/>

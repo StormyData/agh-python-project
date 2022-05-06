@@ -3,8 +3,17 @@ import xml.etree.ElementTree as ETree
 from pygame import Surface, image
 
 from src.Drawing.Animation import AnimationBuffer, AnimationFrame
-from src.Systems.Parser import _parse_vector
 from src.Vector import Vector
+
+
+def _parse_vector(val: str) -> Vector:
+    if ',' not in val:
+        raise ValueError(f"vector must be a pair of floats separated by a ',' not {val}")
+    tab = val.split(",")
+    if len(tab) != 2:
+        raise ValueError(f"vector must be a pair of floats separated by a ',' not {val}")
+    x, y = tab
+    return Vector(x, y)
 
 
 class AssetLoader:
