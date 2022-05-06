@@ -43,7 +43,7 @@ class MonsterAI:
 
     def update(self, player_position: Vector, screen_width: int, screen_height: int, dt: float):
         for monster in self.monsters:
-            offset = -monster.position + Vector(screen_width, screen_height) * 0.5
+            offset = monster.position - player_position + Vector(screen_width, screen_height) * 0.5
             if offset.x > screen_width or offset.x + monster.size.x < 0 or \
                     offset.y > screen_height or offset.y + monster.size.y < 0:
                 continue

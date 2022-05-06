@@ -36,13 +36,11 @@ class Game:
     def load_level(self, level):
         window = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.player.set_position(level.initial_player_pos)
-        last_time = pygame.time.get_ticks()
+        clock = pygame.time.Clock()
         self.monster_AI = MonsterAI(level.entities)
         run = True
         while run:
-            curr_time = pygame.time.get_ticks()
-            dt = (curr_time - last_time) / 1000
-            last_time = curr_time
+            dt = clock.tick(60) / 1000
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.escape_panel(level)

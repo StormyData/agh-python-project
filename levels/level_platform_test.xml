@@ -36,8 +36,5 @@
         <v pos = "74,5" />
         <v pos = "74,-5" />
     </checkpoint>
-    <monster position="-10,-5" size="1,1" texture="alien1" speed="2"/>
-    <monster position="20,-5" size="3,1" texture="alien2" speed="2"/>
-    <monster position="60,-5" size="1,1" texture="alien3" speed="4"/>
 
 </level>
