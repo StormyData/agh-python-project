@@ -1,23 +1,22 @@
-import pygame, sys
+import pygame
 import pygame.gfxdraw
 import pygame.transform
+import sys
 
 from src.Button import Button
 from src.Level import Level
 from src.LevelObjects.Checkpoint import Checkpoint
+from src.LevelObjects.Coins import Coins
 from src.LevelObjects.Entities import Monster
 from src.LevelObjects.Entities import Player
 from src.LevelObjects.LevelObject import LevelObject
 from src.LevelObjects.Platforms import Platform, DisappearingPlatform, ChangingSizePlatform
 from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector
-from src.LevelObjects.Checkpoint import Checkpoint
-from src.LevelObjects.Entities import Monster
-from src.LevelObjects.Coins import Coins
 
 draw_collisions = False
 draw_speed = False
-draw_checkpoints = True
+draw_checkpoints = False
 
 pygame.font.init()
 font = pygame.font.SysFont('Arial', 30)
@@ -121,8 +120,6 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
             draw_player(player, surface, offset)
         case Monster() as monster:
             draw_monster(monster, surface, offset)
-        case Entity() as entity:
-            draw_entity(entity, surface, offset)
         case Checkpoint() as checkpoint:
             draw_checkpoint(checkpoint, surface, offset)
         case Coins() as coin:
@@ -194,7 +191,7 @@ def draw_coin(coin: Coins, surface: pygame.Surface, offset: Vector):
 
     surface.blit(
         pygame.transform.scale(texture, coin.size.as_tuple()),
-        (offset_position).as_tuple())
+        offset_position.as_tuple())
 
     if draw_collisions:
         collider = coin.get_collider()
@@ -217,6 +214,9 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
             text_surface = font.render(f"last checkpoint id={player.last_checkpoint.id}", False, (0, 0, 0))
             surface.blit(text_surface, (0, text_height))
             text_height += text_surface.get_height()
+    text_surface = font.render(f"score: {player.score}", False, (0, 0, 0))
+    surface.blit(text_surface, (0, text_height))
+    text_height += text_surface.get_height()
 
     if player.curr_anim is not None:
 
