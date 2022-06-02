@@ -3,8 +3,8 @@ from typing import Callable
 import pygame
 
 from .Drawing.Drawers import draw_level, draw_player, draw_fps
-from .Drawing.GUI import draw_menu, draw_escape_panel
-from .LevelObjects.Checkpoint import Checkpoint
+from .Drawing.GUI import draw_menu, draw_escape_panel, draw_winning_panel
+from .LevelObjects.Checkpoint import Checkpoint, KillingArea, FinalCheckpoint
 from .LevelObjects.Coins import Coins
 from .LevelObjects.Entities import Player, Monster
 from .LevelObjects.Platforms import Platform
@@ -75,6 +75,10 @@ class Game:
                 elif isinstance(game_object, Coins):
                     game_object.check_collision(self.player)
                 elif isinstance(game_object, Checkpoint):
+                    print('a')
+                    if isinstance(Checkpoint, FinalCheckpoint):
+                        print('b')
+                        return self.winning_panel, (self.player.score, level,)
                     game_object.check_collision(self.player)
                     for monster in level.entities:
                         monster.calc_collision(game_object.get_collider())
@@ -99,6 +103,23 @@ class Game:
             if option is not None:
                 if option == "resume":
                     return self.load_level, (curr_level, False)
+                if option == "retry":
+                    level = parse_file(curr_level.level_name)
+                    return self.load_level, (level,)
+                if option == "menu":
+                    return self.main_menu, tuple()
+
+            pygame.display.update()
+
+        return
+
+
+    def winning_panel(self, score, curr_level):
+        SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_ESCAPE_PANEL)
+        run = True
+        while run:
+            option = draw_winning_panel(self.window, score)
+            if option is not None:
                 if option == "retry":
                     level = parse_file(curr_level.level_name)
                     return self.load_level, (level,)

@@ -80,3 +80,39 @@ def draw_escape_panel(surface: pygame.Surface):
                 return "retry"
             if menu_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
                 return "menu"
+
+
+def draw_winning_panel(surface: pygame.Surface, score):
+    surface.fill((0, 0, 0))
+    background = AssetLoader.get_singleton().get_image("alien2")
+    width = surface.get_width()
+    height = surface.get_height()
+    pygame.gfxdraw.textured_polygon(surface, [(0, 0),
+                                              (0, height),
+                                              (width, height),
+                                              (width, 0)], background, 0, 0)
+
+    win_name = pygame.font.Font("assets/alien_font.ttf", 100).render("YOU WIN", True, "#ACF5B3")
+    win_rect = win_name.get_rect(center=(width / 2, 300))
+    surface.blit(win_name, win_rect)
+
+    win_name = pygame.font.Font("assets/alien_font.ttf", 50).render("YOUR SCORE:\t\t" + str(score), True, "#ACF5B3")
+    win_rect = win_name.get_rect(center=(width / 2, 400))
+    surface.blit(win_name, win_rect)
+
+    button_texture = AssetLoader.get_singleton().get_image("alien1")
+    retry_button = Button(button_texture, Vector(width / 2, 600),
+                          "PLAY AGAIN", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+    menu_button = Button(button_texture, Vector(width / 2, 700),
+                         "MAIN MENU", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+
+    for button in [retry_button, menu_button]:
+        button.change_color(Vector.from_tuple(pygame.mouse.get_pos()))
+        button.update(surface)
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if retry_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "retry"
+            if menu_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
+                return "menu"

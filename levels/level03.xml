@@ -2,14 +2,14 @@
 <level background="sky0" initial_player_pos="1,-5">
     <platform texture="wall0">
         <v pos="-22,-10"/>
-        <v pos="-22,2"/>
-        <v pos="-20,2"/>
+        <v pos="-22,100"/>
+        <v pos="-20,100"/>
         <v pos="-20,-10"/>
     </platform>
     <platform texture="alien1">
         <v pos="-20,0"/>
-        <v pos="-20,2"/>
-        <v pos="10,2"/>
+        <v pos="-20,100"/>
+        <v pos="10,100"/>
         <v pos="10,0"/>
     </platform>
     <monster position="-18,-2" size="2,2" texture="monster" speed="2"/>
@@ -17,16 +17,16 @@
     <coin position="-16,-2" texture="coin" size="2,2"/>
     <coin position="-12,-2" texture="coin" size="2,2"/>
     <platform texture="alien1">
-        <v pos="10,-2"/>
-        <v pos="10,2"/>
+        <v pos="10,0"/>
+        <v pos="10,100"/>
         <v pos="40,2"/>
-        <v pos="40,-2"/>
+        <v pos="40,0"/>
     </platform>
 
     <moving_platform texture="alien2" time="3.0" speed="5,0">
         <v pos="40,0"/>
-        <v pos="40,-4"/>
-        <v pos="45,-4"/>
+        <v pos="40,-2"/>
+        <v pos="45,-2"/>
         <v pos="45,0"/>
     </moving_platform>
 
@@ -44,19 +44,31 @@
 <!--    </platform>-->
 
     <platform texture="alien1">
-        <v pos="73,0"/>
+        <v pos="73,100"/>
         <v pos="73,-4"/>
         <v pos="81,-4"/>
-        <v pos="81,0"/>
+        <v pos="81,100"/>
     </platform>
     <coin position="73,-6" texture="coin" size="2,2"/>
     <coin position="77,-6" texture="coin" size="2,2"/>
     <coin position="79,-6" texture="coin" size="2,2"/>
     <platform texture="alien1">
-        <v pos="81,0"/>
-        <v pos="81,-4"/>
-        <v pos="100,-8"/>
-        <v pos="100,0"/>
+        <v pos="81,100"/>
+        <v pos="81,-5"/>
+        <v pos="87,-5"/>
+        <v pos="87,100"/>
+    </platform>
+    <platform texture="alien1">
+        <v pos="87,100"/>
+        <v pos="87,-6"/>
+        <v pos="93,-6"/>
+        <v pos="93,100"/>
+    </platform>
+    <platform texture="alien1">
+        <v pos="93,100"/>
+        <v pos="93,-7"/>
+        <v pos="100,-7"/>
+        <v pos="100,100"/>
     </platform>
     <platform texture="alien1">
         <v pos="100,-6"/>
@@ -169,10 +181,10 @@
         <v pos="230,-25"/>
     </moving_platform>
     <platform texture="alien7">
-        <v pos="235,0"/>
+        <v pos="235,100"/>
         <v pos="235,-36"/>
         <v pos="242,-36"/>
-        <v pos="242,0"/>
+        <v pos="242,100"/>
     </platform>
     <moving_platform texture="alien6" time="2.5" speed="0,-4">
         <v pos="225,-35"/>
@@ -188,10 +200,10 @@
     </platform>
 
     <platform texture="alien7">
-        <v pos="242,0"/>
+        <v pos="242,100"/>
         <v pos="242,-46"/>
         <v pos="300,-46"/>
-        <v pos="300,0"/>
+        <v pos="300,100"/>
     </platform>
 
 

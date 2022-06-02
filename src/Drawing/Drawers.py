@@ -140,8 +140,8 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
         surface.blit(text_surface, (0, text_height))
         text_height += text_surface.get_height()
     if draw_checkpoints:
-        if player.last_checkpoint is not None:
-            text_surface = font.render(f"last checkpoint id={player.last_checkpoint.id}", False, (0, 0, 0))
+        if player.final_checkpoint is not None:
+            text_surface = font.render(f"final checkpoint id={player.final_checkpoint.id}", False, (0, 0, 0))
             surface.blit(text_surface, (0, text_height))
             text_height += text_surface.get_height()
     text_surface = font.render(f"score: {player.score}", False, (0, 0, 0))

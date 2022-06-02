@@ -1,4 +1,5 @@
 from src.Game import Game
+from src.Systems.Parser import parse_file
 from src.Systems.AssetLoader import AssetLoader
 
 

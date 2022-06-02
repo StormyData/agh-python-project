@@ -30,12 +30,12 @@
         <v pos = "4,5" />
         <v pos = "2,5" />
     </checkpoint>
-    <checkpoint id="2" tele_to="9,-5">
+    <final_checkpoint>
         <v pos = "8,-5" />
         <v pos = "10,-5" />
         <v pos = "10,5" />
         <v pos = "8,5" />
-    </checkpoint>
+    </final_checkpoint>
     <changing_size_platform texture="wall0" max_size="2" min_size="0.5" speed="0.5" texture_pos="100,100">
         <v pos="-2,-10"/>
         <v pos="-2,-5"/>

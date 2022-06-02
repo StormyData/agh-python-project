@@ -34,3 +34,26 @@ class Checkpoint(LevelObject):
         min_y = min(self.vertices, key=lambda v: v.y)
         max_y = max(self.vertices, key=lambda v: v.y)
         self.bounding_box = (Vector(min_x.x, min_y.y), Vector(max_x.x, max_y.y))
+
+
+class KillingArea(Checkpoint):
+    def __init__(self, vertices: list[Vector]):
+        super().__init__(vertices, '', Vector(0, 0))
+
+    def check_collision(self, player):
+        if self.collider.collides(player.get_collider()):
+            player.teleport_to_last_checkpoint()
+
+    def get_tele_to_pos(self):
+        pass
+
+
+class FinalCheckpoint(Checkpoint):
+    def __init__(self, vertices: list[Vector]):
+        super().__init__(vertices, '', Vector(0, 0))
+
+    def check_collision(self, player):
+        pass
+
+    def get_tele_to_pos(self):
+        pass

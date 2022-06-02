@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ETree
 
 from ..Level import Level
-from ..LevelObjects.Checkpoint import Checkpoint
+from ..LevelObjects.Checkpoint import Checkpoint, KillingArea, FinalCheckpoint
 from ..LevelObjects.Coins import Coins
 from ..LevelObjects.Entities import Monster
 from ..LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
@@ -43,6 +43,10 @@ def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
                 contents.add(_parse_disappearing_platform(child))
             case "changing_size_platform":
                 contents.add(_parse_changing_size_platform(child))
+            case "killing_area":
+                contents.add(_parse_killing_area(child))
+            case "final_checkpoint":
+                contents.add(_parse_final_checkpoint(child))
             case "checkpoint":
                 contents.add(_parse_checkpoint(child))
             case "monster":
@@ -59,6 +63,18 @@ def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
     child_nodes = {'v': _parse_platform_vertex}
     field_renames = {'v': 'vertices', 'id': "checkpoint_id"}
     return _parse(element, Checkpoint, fields, field_renames, child_nodes=child_nodes)
+
+
+def _parse_killing_area(element: ETree.Element) -> KillingArea:
+    child_nodes = {'v': _parse_platform_vertex}
+    field_renames = {'v': 'vertices'}
+    return _parse(element, KillingArea, {}, field_renames, child_nodes=child_nodes)
+
+
+def _parse_final_checkpoint(element: ETree.Element) -> FinalCheckpoint:
+    child_nodes = {'v': _parse_platform_vertex}
+    field_renames = {'v': 'vertices'}
+    return _parse(element, FinalCheckpoint, {}, field_renames, child_nodes=child_nodes)
 
 
 def _parse_changing_size_platform(element: ETree.Element) -> ChangingSizePlatform:
