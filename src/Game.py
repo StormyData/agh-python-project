@@ -7,6 +7,7 @@ from src.LevelObjects.Entities import Player, Monster
 from src.LevelObjects.Platforms import Platform
 from src.Vector import Vector
 from src.LevelObjects.Checkpoint import Checkpoint
+from src.Systems.SoundEngine import SoundEvent, SoundEngine
 pygame.init()
 
 
@@ -25,6 +26,7 @@ class Game:
             f, args = f(*args)
 
     def main_menu(self):
+        SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_MENU)
         run = True
         while run:
             self.window.fill((0, 0, 0))
@@ -39,7 +41,10 @@ class Game:
 
     def load_level(self, level, reset=True):
         if reset:
+            SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_LEVEL)
             self.player.set_position(level.initial_player_pos)
+        else:
+            SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_RESUMED_LEVEL)
         clock = pygame.time.Clock()
         self.monster_AI = MonsterAI(level.entities)
         run = True
@@ -76,6 +81,7 @@ class Game:
         pygame.quit()
 
     def escape_panel(self, curr_level):
+        SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_ESCAPE_PANEL)
         run = True
         while run:
             self.window.fill((0, 0, 0))
