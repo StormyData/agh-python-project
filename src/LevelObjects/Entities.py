@@ -115,8 +115,11 @@ class Player(Entity):
 
     def calc_collision_monster(self, collider: Collider):
         if self.collider.collides(collider):
-            SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_DIED)
-            self.teleport_to_last_checkpoint()
+            self.kill()
+
+    def kill(self):
+        SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_DIED)
+        self.teleport_to_last_checkpoint()
 
     def jump(self):
         super().jump()

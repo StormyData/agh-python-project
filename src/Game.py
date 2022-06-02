@@ -4,7 +4,7 @@ import pygame
 
 from .Drawing.Drawers import draw_level, draw_player, draw_fps
 from .Drawing.GUI import draw_menu, draw_escape_panel, draw_winning_panel
-from .LevelObjects.Checkpoint import Checkpoint, KillingArea, FinalCheckpoint
+from .LevelObjects.Checkpoint import WalkInArea, Checkpoint, FinalCheckpoint
 from .LevelObjects.Coins import Coins
 from .LevelObjects.Entities import Player, Monster
 from .LevelObjects.Platforms import Platform
@@ -74,14 +74,13 @@ class Game:
                     self.player.calc_collision_monster(game_object.get_collider())
                 elif isinstance(game_object, Coins):
                     game_object.check_collision(self.player)
-                elif isinstance(game_object, Checkpoint):
-                    print('a')
-                    if isinstance(Checkpoint, FinalCheckpoint):
-                        print('b')
+                elif isinstance(game_object, WalkInArea):
+                    res = game_object.check_collision(self.player)
+                    if isinstance(game_object, Checkpoint):
+                        for monster in level.entities:
+                            monster.calc_collision(game_object.get_collider())
+                    elif isinstance(game_object, FinalCheckpoint) and res:
                         return self.winning_panel, (self.player.score, level,)
-                    game_object.check_collision(self.player)
-                    for monster in level.entities:
-                        monster.calc_collision(game_object.get_collider())
 
             self.player.update(dt)
             offset = -self.player.position + Vector.from_tuple(self.window.get_size()) * 0.5
@@ -112,7 +111,6 @@ class Game:
             pygame.display.update()
 
         return
-
 
     def winning_panel(self, score, curr_level):
         SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_ESCAPE_PANEL)

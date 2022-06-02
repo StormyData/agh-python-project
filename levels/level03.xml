@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <level background="sky0" initial_player_pos="1,-5">
+    <killing_area>
+        <v pos="-22,100"/>
+        <v pos="-22,10"/>
+        <v pos="350,10"/>
+        <v pos="350,100"/>
+    </killing_area>
     <platform texture="wall0">
         <v pos="-22,-10"/>
         <v pos="-22,100"/>
