@@ -11,6 +11,7 @@ class SoundEvent(Enum):
     PLAYER_JUMPED = auto()
     PLAYER_DIED = auto()
     PLAYER_CHECKPOINT_SET = auto()
+    PLAYER_PICKED_UP_COIN = auto()
     PLAYER_GONE_HOME = auto()
     SCREEN_ENTERED_MENU = auto()
     SCREEN_ENTERED_ESCAPE_PANEL = auto()
@@ -52,6 +53,8 @@ class SoundEngine:
                 self._player_moving = False
             case SoundEvent.PLAYER_GONE_HOME:
                 SoundEngine._get_sound("player_gone_home").play()
+            case SoundEvent.PLAYER_PICKED_UP_COIN:
+                SoundEngine._get_sound("coin_picked_up").play()
 
             case SoundEvent.SCREEN_ENTERED_MENU:
                 pygame.mixer.music.load(AssetLoader.get_singleton().get_music_path("main_menu"))

@@ -11,6 +11,7 @@ from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector
 from src.LevelObjects.Checkpoint import Checkpoint
 from src.LevelObjects.Entities import Monster
+from src.LevelObjects.Coins import Coins
 
 draw_collisions = False
 draw_speed = False
@@ -123,6 +124,9 @@ def draw_level_object(level_object: LevelObject, surface: pygame.Surface, offset
             draw_entity(entity, surface, offset)
         case Checkpoint() as checkpoint:
             draw_checkpoint(checkpoint, surface, offset)
+        case Coins() as coin:
+            if not coin.collected:
+                draw_coin(coin, surface, offset)
 
 
 def draw_changing_size_platform(platform: ChangingSizePlatform, surface: pygame.Surface, offset: Vector):
@@ -176,6 +180,23 @@ def draw_monster(monster: Monster, surface: pygame.Surface, offset: Vector):
 
     if draw_collisions:
         collider = monster.get_collider()
+        pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
+
+
+def draw_coin(coin: Coins, surface: pygame.Surface, offset: Vector):
+    texture = AssetLoader.get_singleton().get_image(coin.texture_name)
+    offset_position = coin.position + offset
+    width, height = surface.get_size()
+    if offset_position.x > width or offset_position.x + coin.size.x < 0 or \
+            offset_position.y > height or offset_position.y + coin.size.y < 0:
+        return
+
+    surface.blit(
+        pygame.transform.scale(texture, coin.size.as_tuple()),
+        (offset_position).as_tuple())
+
+    if draw_collisions:
+        collider = coin.get_collider()
         pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
 
 

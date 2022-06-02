@@ -79,6 +79,7 @@ class Player(Entity):
         self.curr_anim = self.anims['idle']
         self.curr_anim: Animation | None
         self.last_last_on_ground = False
+        self.score = 0
 
     def flip(self):
         self.facing_left = not self.facing_left
@@ -123,3 +124,6 @@ class Player(Entity):
         super().jump()
         if self.last_on_ground:
             SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_JUMPED)
+
+    def score_reset(self):
+        self.score = 0

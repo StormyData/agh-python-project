@@ -33,7 +33,3 @@ class Checkpoint(LevelObject):
         min_y = min(self.vertices, key=lambda v: v.y)
         max_y = max(self.vertices, key=lambda v: v.y)
         self.bounding_box = (Vector(min_x.x, min_y.y), Vector(max_x.x, max_y.y))
-
-
-
-

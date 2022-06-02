@@ -6,6 +6,7 @@ from src.Drawing.Drawers import draw_menu, draw_level, draw_escape_panel, draw_p
 from src.LevelObjects.Entities import Player, Monster
 from src.LevelObjects.Platforms import Platform
 from src.Vector import Vector
+from src.LevelObjects.Coins import Coins
 from src.LevelObjects.Checkpoint import Checkpoint
 from src.Systems.SoundEngine import SoundEvent, SoundEngine
 pygame.init()
@@ -43,6 +44,7 @@ class Game:
         if reset:
             SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_LEVEL)
             self.player.set_position(level.initial_player_pos)
+            self.player.score_reset()
         else:
             SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_RESUMED_LEVEL)
         clock = pygame.time.Clock()
@@ -65,6 +67,8 @@ class Game:
                         monster.calc_collision(game_object.get_collider())
                 elif isinstance(game_object, Monster):
                     self.player.calc_collision_monster(game_object.get_collider())
+                elif isinstance(game_object, Coins):
+                    game_object.check_collision(self.player)
                 elif isinstance(game_object, Checkpoint):
                     game_object.check_collision(self.player)
 

@@ -4,6 +4,7 @@ from src.Level import Level
 from src.LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
 from src.LevelObjects.Checkpoint import Checkpoint
 from src.LevelObjects.Entities import Monster
+from src.LevelObjects.Coins import Coins
 from src.Vector import Vector
 
 vector_scale = 16
@@ -46,6 +47,8 @@ def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
                 contents.add(_parse_checkpoint(child))
             case "monster":
                 contents.add(_parse_monster(child))
+            case "coin":
+                contents.add(_parse_coin(child))
             case _:
                 raise ParseError("unknown level element")
     return Level(contents, bg, filename, initial_player_pos)
@@ -98,6 +101,12 @@ def _parse_monster(element: ETree.Element) -> Monster:
     fields = {'position': _parse_vector, 'size': _parse_vector, 'texture': str, 'speed': float}
     field_renames = {'texture': 'texture_name'}
     return _parse(element, Monster, fields, field_renames)
+
+
+def _parse_coin(element: ETree.Element) -> Coins:
+    fields = {'position': _parse_vector, 'texture': str, 'size': _parse_vector}
+    field_renames = {'texture': 'texture_name'}
+    return _parse(element, Coins, fields, field_renames)
 
 
 def _parse_vector(val: str) -> Vector:

@@ -12,11 +12,15 @@
         <v pos="10,2"/>
         <v pos="10,0"/>
     </platform>
+    <monster position="-18,-2" size="2,2" texture="monster" speed="2"/>
+    <coin position="-20,-2" texture="coin" size="2,2"/>
+    <coin position="-16,-2" texture="coin" size="2,2"/>
+    <coin position="-12,-2" texture="coin" size="2,2"/>
     <platform texture="alien1">
-        <v pos="10,0"/>
+        <v pos="10,-2"/>
         <v pos="10,2"/>
         <v pos="40,2"/>
-        <v pos="40,-4"/>
+        <v pos="40,-2"/>
     </platform>
 
     <moving_platform texture="alien2" time="3.0" speed="5,0">
@@ -45,6 +49,9 @@
         <v pos="81,-4"/>
         <v pos="81,0"/>
     </platform>
+    <coin position="73,-6" texture="coin" size="2,2"/>
+    <coin position="77,-6" texture="coin" size="2,2"/>
+    <coin position="79,-6" texture="coin" size="2,2"/>
     <platform texture="alien1">
         <v pos="81,0"/>
         <v pos="81,-4"/>
@@ -57,6 +64,9 @@
         <v pos="113,-8"/>
         <v pos="113,-6"/>
     </platform>
+    <coin position="100,-10" texture="coin" size="2,2"/>
+    <coin position="105,-10" texture="coin" size="2,2"/>
+    <coin position="110,-10" texture="coin" size="2,2"/>
 
     <platform texture="alien4">
         <v pos="113,-10"/>
