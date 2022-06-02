@@ -18,29 +18,201 @@
         <v pos="40,2"/>
         <v pos="40,-4"/>
     </platform>
-    <moving_platform texture="alien1" time="3.0" speed="5,0">
+
+    <moving_platform texture="alien2" time="3.0" speed="5,0">
         <v pos="40,0"/>
         <v pos="40,-4"/>
         <v pos="45,-4"/>
         <v pos="45,0"/>
     </moving_platform>
-    <disappearing_platform texture="wall0" time="2.5">
+
+    <disappearing_platform texture="alien3" time="2.5">
         <v pos="60,0"/>
         <v pos="60,-4"/>
         <v pos="69,-4"/>
         <v pos="69,-0"/>
     </disappearing_platform>
+<!--    <platform texture="alien3">-->
+<!--        <v pos="60,0"/>-->
+<!--        <v pos="60,-4"/>-->
+<!--        <v pos="69,-4"/>-->
+<!--        <v pos="69,-0"/>-->
+<!--    </platform>-->
 
-    <platform texture="wall0">
-        <v pos="80,-3"/>
-        <v pos="80,2"/>
-        <v pos="82,2"/>
-        <v pos="82,-3"/>
+    <platform texture="alien1">
+        <v pos="73,0"/>
+        <v pos="73,-4"/>
+        <v pos="81,-4"/>
+        <v pos="81,0"/>
     </platform>
+    <platform texture="alien1">
+        <v pos="81,0"/>
+        <v pos="81,-4"/>
+        <v pos="100,-8"/>
+        <v pos="100,0"/>
+    </platform>
+    <platform texture="alien1">
+        <v pos="100,-6"/>
+        <v pos="100,-8"/>
+        <v pos="113,-8"/>
+        <v pos="113,-6"/>
+    </platform>
+
+    <platform texture="alien4">
+        <v pos="113,-10"/>
+        <v pos="113,-11"/>
+        <v pos="120,-11"/>
+        <v pos="120,-10"/>
+    </platform>
+    <platform texture="alien3">
+        <v pos="102,-13"/>
+        <v pos="102,-14"/>
+        <v pos="109,-14"/>
+        <v pos="109,-13"/>
+    </platform>
+    <platform texture="alien4">
+        <v pos="113,-16"/>
+        <v pos="113,-17"/>
+        <v pos="120,-17"/>
+        <v pos="120,-16"/>
+    </platform>
+    <platform texture="alien3">
+        <v pos="102,-19"/>
+        <v pos="102,-20"/>
+        <v pos="109,-20"/>
+        <v pos="109,-19"/>
+    </platform>
+
+    <platform texture="alien4">
+        <v pos="113,-22"/>
+        <v pos="113,-23"/>
+        <v pos="120,-23"/>
+        <v pos="120,-22"/>
+    </platform>
+    <platform texture="alien3">
+        <v pos="124,-22"/>
+        <v pos="124,-23"/>
+        <v pos="130,-23"/>
+        <v pos="130,-22"/>
+    </platform>
+    <platform texture="alien4">
+        <v pos="134,-23"/>
+        <v pos="134,-24"/>
+        <v pos="140,-24"/>
+        <v pos="140,-23"/>
+    </platform>
+    <platform texture="alien3">
+        <v pos="144,-24"/>
+        <v pos="144,-25"/>
+        <v pos="150,-25"/>
+        <v pos="150,-24"/>
+    </platform>
+    <platform texture="alien4">
+        <v pos="154,-25"/>
+        <v pos="154,-26"/>
+        <v pos="160,-26"/>
+        <v pos="160,-25"/>
+    </platform>
+
+    <disappearing_platform texture="alien5" time="2.0">
+        <v pos="164,-25"/>
+        <v pos="164,-26"/>
+        <v pos="170,-26"/>
+        <v pos="170,-25"/>
+    </disappearing_platform>
+    <platform texture="alien4">
+        <v pos="174,-25"/>
+        <v pos="174,-26"/>
+        <v pos="180,-26"/>
+        <v pos="180,-25"/>
+    </platform>
+    <disappearing_platform texture="alien5" time="2.0">
+        <v pos="184,-25"/>
+        <v pos="184,-26"/>
+        <v pos="190,-26"/>
+        <v pos="190,-25"/>
+    </disappearing_platform>
+    <platform texture="alien4">
+        <v pos="194,-25"/>
+        <v pos="194,-26"/>
+        <v pos="200,-26"/>
+        <v pos="200,-25"/>
+    </platform>
+    <disappearing_platform texture="alien5" time="2.0">
+        <v pos="204,-25"/>
+        <v pos="204,-26"/>
+        <v pos="210,-26"/>
+        <v pos="210,-25"/>
+    </disappearing_platform>
+    <platform texture="alien4">
+        <v pos="214,-25"/>
+        <v pos="214,-26"/>
+        <v pos="220,-26"/>
+        <v pos="220,-25"/>
+    </platform>
+
+
+    <moving_platform texture="alien6" time="2.5" speed="0,-4">
+        <v pos="225,-25"/>
+        <v pos="225,-26"/>
+        <v pos="230,-26"/>
+        <v pos="230,-25"/>
+    </moving_platform>
+    <platform texture="alien7">
+        <v pos="235,0"/>
+        <v pos="235,-36"/>
+        <v pos="242,-36"/>
+        <v pos="242,0"/>
+    </platform>
+    <moving_platform texture="alien6" time="2.5" speed="0,-4">
+        <v pos="225,-35"/>
+        <v pos="225,-36"/>
+        <v pos="230,-36"/>
+        <v pos="230,-35"/>
+    </moving_platform>
+    <platform texture="alien7">
+        <v pos="235,-44"/>
+        <v pos="235,-46"/>
+        <v pos="242,-46"/>
+        <v pos="242,-44"/>
+    </platform>
+
+    <platform texture="alien7">
+        <v pos="242,0"/>
+        <v pos="242,-46"/>
+        <v pos="300,-46"/>
+        <v pos="300,0"/>
+    </platform>
+
+
+
+
+
+
+
     <checkpoint id="1" tele_to="3,-5">
         <v pos = "2,-5" />
         <v pos = "4,-5" />
         <v pos = "4,5" />
         <v pos = "2,5" />
     </checkpoint>
+    <checkpoint id="2" tele_to="76,-9">
+        <v pos = "75,-9" />
+        <v pos = "77,-9" />
+        <v pos = "77,1" />
+        <v pos = "75,1" />
+    </checkpoint>
+    <checkpoint id="3" tele_to="217,-31">
+        <v pos = "216,-31" />
+        <v pos = "218,-31" />
+        <v pos = "218,-21" />
+        <v pos = "216,-21" />
+    </checkpoint>
+    <checkpoint id="4" tele_to="291,-51">
+        <v pos = "290,-51" />
+        <v pos = "292,-51" />
+        <v pos = "292,-41" />
+        <v pos = "290,-41" />
+    </checkpoint>
+
 </level>
