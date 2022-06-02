@@ -5,7 +5,7 @@ from src.Systems.AssetLoader import AssetLoader
 
 def main():
     AssetLoader.get_singleton().load_paths("assets/descriptor.xml")
-    # level = parse_file("levels/level_monsters.xml")
+    # level = parse_file("levels/level02.xml")
 
     game = Game()
     # game.load_level(level)

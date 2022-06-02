@@ -14,10 +14,10 @@ class Coins(LevelObject):
 
     def check_collision(self, player):
         if self.collider.collides(player.get_collider()):
-            player.score += 1
             if not self.collected:
+                player.score += 1
                 SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_PICKED_UP_COIN)
-            self.collected = True
+                self.collected = True
 
     def get_collider(self):
         return self.collider

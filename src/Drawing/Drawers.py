@@ -1,9 +1,7 @@
 import pygame
 import pygame.gfxdraw
 import pygame.transform
-import sys
 
-from src.Button import Button
 from src.Level import Level
 from src.LevelObjects.Checkpoint import Checkpoint
 from src.LevelObjects.Coins import Coins
@@ -25,73 +23,6 @@ font = pygame.font.SysFont('Arial', 30)
 def draw_fps(surface: pygame.Surface, fps: float):
     text_surface = font.render(f"fps={fps:0.2f}", False, (0, 0, 0))
     surface.blit(text_surface, (surface.get_width() - text_surface.get_width(), 0))
-
-
-def draw_menu(surface: pygame.Surface):
-    background = AssetLoader.get_singleton().get_image("alien3")
-    width = surface.get_width()
-    height = surface.get_height()
-    pygame.gfxdraw.textured_polygon(surface, [(0, 0),
-                                              (0, height),
-                                              (width, height),
-                                              (width, 0)], background, 0, 0)
-
-    menu_name = pygame.font.Font("assets/alien_font.ttf", 100).render("MAIN MENU", True, "#ACF5B3")
-    menu_rect = menu_name.get_rect(center=(width / 2, 300))
-    surface.blit(menu_name, menu_rect)
-
-    button_texture = AssetLoader.get_singleton().get_image("alien1")
-    play_button = Button(button_texture, Vector(width / 2, 400),
-                         "LEVEL 1", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-    options_button = Button(button_texture, Vector(width / 2, 500),
-                            "LEVEL 2", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-    quit_button = Button(button_texture, Vector(width / 2, 600),
-                         "QUIT", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-
-    for button in [play_button, options_button, quit_button]:
-        button.change_color(Vector.from_tuple(pygame.mouse.get_pos()))
-        button.update(surface)
-
-    for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if play_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
-                return "levels/level01.xml"
-            if options_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
-                return "levels/level_platform_test.xml"
-            if quit_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
-                pygame.quit()
-                sys.exit()
-
-
-def draw_escape_panel(surface: pygame.Surface):
-    background = AssetLoader.get_singleton().get_image("alien3")
-    width = surface.get_width()
-    height = surface.get_height()
-    pygame.gfxdraw.textured_polygon(surface, [(0, 0),
-                                              (0, height),
-                                              (width, height),
-                                              (width, 0)], background, 0, 0)
-
-    button_texture = AssetLoader.get_singleton().get_image("alien1")
-    resume_button = Button(button_texture, Vector(width / 2, 300),
-                           "RESUME", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-    retry_button = Button(button_texture, Vector(width / 2, 400),
-                          "RETRY", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-    menu_button = Button(button_texture, Vector(width / 2, 500),
-                         "MAIN MENU", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-
-    for button in [resume_button, retry_button, menu_button]:
-        button.change_color(Vector.from_tuple(pygame.mouse.get_pos()))
-        button.update(surface)
-
-    for event in pygame.event.get():
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if resume_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
-                return "resume"
-            if retry_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
-                return "retry"
-            if menu_button.check_for_input(Vector.from_tuple(pygame.mouse.get_pos())):
-                return "menu"
 
 
 def draw_level(level: Level, surface: pygame.Surface, offset: Vector):

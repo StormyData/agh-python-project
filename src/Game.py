@@ -4,7 +4,8 @@ import pygame
 
 from src.Systems.Parser import parse_file
 from src.Controller import Controller, MonsterAI
-from src.Drawing.Drawers import draw_menu, draw_level, draw_escape_panel, draw_player, draw_fps
+from src.Drawing.Drawers import draw_level, draw_player, draw_fps
+from src.Drawing.GUI import draw_menu, draw_escape_panel
 from src.LevelObjects.Entities import Player, Monster
 from src.LevelObjects.Platforms import Platform
 from src.Vector import Vector
@@ -36,8 +37,6 @@ class Game:
         SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_MENU)
         run = True
         while run:
-            self.window.fill((0, 0, 0))
-
             option = draw_menu(self.window)
             if option is not None:
                 level = parse_file(option)
@@ -96,8 +95,6 @@ class Game:
         SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_ESCAPE_PANEL)
         run = True
         while run:
-            self.window.fill((0, 0, 0))
-
             option = draw_escape_panel(self.window)
             if option is not None:
                 if option == "resume":
