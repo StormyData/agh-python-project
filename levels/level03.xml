@@ -110,6 +110,10 @@
         <v pos="109,-20"/>
         <v pos="109,-19"/>
     </platform>
+    <coin position="102,-22" texture="coin" size="2,2"/>
+    <coin position="105,-22" texture="coin" size="2,2"/>
+    <coin position="108,-22" texture="coin" size="2,2"/>
+
 
     <platform texture="alien4">
         <v pos="113,-22"/>
@@ -141,6 +145,9 @@
         <v pos="160,-26"/>
         <v pos="160,-25"/>
     </platform>
+    <coin position="154,-28" texture="coin" size="2,2"/>
+    <coin position="156,-28" texture="coin" size="2,2"/>
+    <coin position="158,-28" texture="coin" size="2,2"/>
 
     <disappearing_platform texture="alien5" time="2.0">
         <v pos="164,-25"/>
@@ -166,6 +173,9 @@
         <v pos="200,-26"/>
         <v pos="200,-25"/>
     </platform>
+    <coin position="194,-28" texture="coin" size="2,2"/>
+    <coin position="196,-28" texture="coin" size="2,2"/>
+    <coin position="198,-28" texture="coin" size="2,2"/>
     <disappearing_platform texture="alien5" time="2.0">
         <v pos="204,-25"/>
         <v pos="204,-26"/>
@@ -192,6 +202,9 @@
         <v pos="242,-36"/>
         <v pos="242,100"/>
     </platform>
+    <coin position="235,-38" texture="coin" size="2,2"/>
+    <coin position="237,-38" texture="coin" size="2,2"/>
+    <coin position="239,-38" texture="coin" size="2,2"/>
     <moving_platform texture="alien6" time="2.5" speed="0,-4">
         <v pos="225,-35"/>
         <v pos="225,-36"/>
@@ -208,39 +221,42 @@
     <platform texture="alien7">
         <v pos="242,100"/>
         <v pos="242,-46"/>
-        <v pos="300,-46"/>
-        <v pos="300,100"/>
+        <v pos="400,-46"/>
+        <v pos="400,100"/>
     </platform>
 
 
 
 
-
-
-
     <checkpoint id="1" tele_to="3,-5">
-        <v pos = "2,-5" />
-        <v pos = "4,-5" />
-        <v pos = "4,5" />
-        <v pos = "2,5" />
+        <v pos = "0,-5" />
+        <v pos = "6,-5" />
+        <v pos = "6,5" />
+        <v pos = "0,5" />
     </checkpoint>
     <checkpoint id="2" tele_to="76,-9">
-        <v pos = "75,-9" />
-        <v pos = "77,-9" />
-        <v pos = "77,1" />
-        <v pos = "75,1" />
+        <v pos = "73,-9" />
+        <v pos = "79,-9" />
+        <v pos = "79,1" />
+        <v pos = "73,1" />
     </checkpoint>
     <checkpoint id="3" tele_to="217,-31">
-        <v pos = "216,-31" />
-        <v pos = "218,-31" />
-        <v pos = "218,-21" />
-        <v pos = "216,-21" />
+        <v pos = "214,-31" />
+        <v pos = "220,-31" />
+        <v pos = "220,-21" />
+        <v pos = "214,-21" />
     </checkpoint>
-    <checkpoint id="4" tele_to="291,-51">
-        <v pos = "290,-51" />
-        <v pos = "292,-51" />
-        <v pos = "292,-41" />
-        <v pos = "290,-41" />
-    </checkpoint>
+    <final_checkpoint>
+        <v pos = "238,-51" />
+        <v pos = "244,-51" />
+        <v pos = "244,-41" />
+        <v pos = "238,-41" />
+    </final_checkpoint>
+    <killing_area>
+        <v pos="-100,100"/>
+        <v pos="-100,10"/>
+        <v pos="350,10"/>
+        <v pos="350,100"/>
+    </killing_area>
 
 </level>

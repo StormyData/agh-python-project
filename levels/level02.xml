@@ -19,23 +19,29 @@
         <v pos="-20,-3"/>
     </platform>
     <checkpoint id="1" tele_to="3,-5">
-        <v pos = "2,-5" />
-        <v pos = "4,-5" />
-        <v pos = "4,5" />
-        <v pos = "2,5" />
+        <v pos = "0,-5" />
+        <v pos = "6,-5" />
+        <v pos = "6,5" />
+        <v pos = "0,5" />
     </checkpoint>
     <checkpoint id="2" tele_to="59,-5">
-        <v pos = "58,-5" />
-        <v pos = "58,5" />
-        <v pos = "60,5" />
-        <v pos = "60,-5" />
+        <v pos = "56,-5" />
+        <v pos = "56,5" />
+        <v pos = "62,5" />
+        <v pos = "62,-5" />
     </checkpoint>
-    <checkpoint id="3" tele_to="73,-5">
-        <v pos = "72,-5" />
-        <v pos = "72,5" />
-        <v pos = "74,5" />
-        <v pos = "74,-5" />
-    </checkpoint>
+    <final_checkpoint>
+        <v pos = "70,-5" />
+        <v pos = "70,5" />
+        <v pos = "76,5" />
+        <v pos = "76,-5" />
+    </final_checkpoint>
+    <killing_area>
+        <v pos="-100,100"/>
+        <v pos="-100,10"/>
+        <v pos="350,10"/>
+        <v pos="350,100"/>
+    </killing_area>
     <monster position="-10,-5" size="2,2" texture="monster" speed="2"/>
     <monster position="20,-5" size="1.5,1.5" texture="monster" speed="2"/>
     <monster position="60,-5" size="1,1" texture="monster" speed="4"/>

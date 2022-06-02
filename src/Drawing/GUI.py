@@ -25,11 +25,11 @@ def draw_menu(surface: pygame.Surface):
 
     button_texture = AssetLoader.get_singleton().get_image("alien1")
     level1_button = Button(button_texture, Vector(width / 2, 400),
-                         "LEVEL 1", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+                           "LEVEL 1", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
     level2_button = Button(button_texture, Vector(width / 2, 500),
-                            "LEVEL 2", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+                           "LEVEL 2", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
     level3_button = Button(button_texture, Vector(width / 2, 600),
-                          "LEVEL 3", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
+                           "LEVEL 3", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
     quit_button = Button(button_texture, Vector(width / 2, 700),
                          "QUIT", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
 
@@ -100,15 +100,16 @@ def draw_winning_panel(surface: pygame.Surface, score, time_taken):
     win_rect = win_name.get_rect(center=(width / 2, 400))
     surface.blit(win_name, win_rect)
 
-    win_name = pygame.font.Font("assets/alien_font.ttf", 50).render(f"YOUR TIME:\t\t {float(time_taken)/1000:.2f}", True, "#ACF5B3")
-    win_rect = win_name.get_rect(center=(width / 2, 600))
+    win_name = pygame.font.Font("assets/alien_font.ttf", 50).render(f"YOUR TIME:\t\t {float(time_taken) / 1000:.2f}",
+                                                                    True, "#ACF5B3")
+    win_rect = win_name.get_rect(center=(width / 2, 450))
     surface.blit(win_name, win_rect)
 
     button_texture = AssetLoader.get_singleton().get_image("alien1")
 
-    retry_button = Button(button_texture, Vector(width / 2, 800),
+    retry_button = Button(button_texture, Vector(width / 2, 600),
                           "PLAY AGAIN", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-    menu_button = Button(button_texture, Vector(width / 2, 900),
+    menu_button = Button(button_texture, Vector(width / 2, 700),
                          "MAIN MENU", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
 
     for button in [retry_button, menu_button]:

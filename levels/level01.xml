@@ -43,4 +43,10 @@
         <v pos="0,-12"/>
         <v pos="-2,-12"/>
     </changing_size_platform>
+    <killing_area>
+        <v pos="-100,100"/>
+        <v pos="-100,10"/>
+        <v pos="350,10"/>
+        <v pos="350,100"/>
+    </killing_area>
 </level>

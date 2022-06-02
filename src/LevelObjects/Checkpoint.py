@@ -67,8 +67,5 @@ class FinalCheckpoint(WalkInArea):
     def __init__(self, vertices: list[Vector]):
         super().__init__(vertices)
 
-    def _on_enter(self, player):
-        print("yey")
-
     def __str__(self):
         return f"FinalCheckpoint({self.vertices})"
