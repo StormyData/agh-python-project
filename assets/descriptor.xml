@@ -34,4 +34,5 @@
     <sound name="player_gone_home" path="assets/sounds/Upper01.ogg" from="https://opengameart.org/content/level-up-power-up-coin-get-13-sounds"/>
     <sound name="player_jumped" path="assets/sounds/jump_11.wav" from="https://opengameart.org/content/platformer-jumping-sounds"/>
     <sound name="checkpoint_set" path="assets/sounds/coin02.ogg" from="https://opengameart.org/content/soundpack-04"/>
+    <sound name="player_walk" path="assets/sounds/full steps stereo.mp3" from="https://opengameart.org/content/random-sounds-samples"/>
 </assets>
