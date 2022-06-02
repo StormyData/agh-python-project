@@ -79,8 +79,8 @@ def _parse_disappearing_platform(element: ETree.Element) -> DisappearingPlatform
 
 def _parse_moving_platform(element: ETree.Element) -> MovingPlatform:
     fields = {'texture': str, 'texture_pos': _parse_vector,
-              'start_position': _parse_vector, 'end_position': _parse_vector, 'speed': _parse_vector}
-    field_renames = {'texture': 'texture_name', 'v': 'vertices'}
+              'time': float, 'speed': _parse_vector}
+    field_renames = {'texture': 'texture_name', 'time': 'max_time', 'v': 'vertices'}
     defaults = {'texture_pos': Vector(0, 0)}
     child_nodes = {'v': _parse_platform_vertex}
     return _parse(element, MovingPlatform, fields, field_renames, defaults, child_nodes)

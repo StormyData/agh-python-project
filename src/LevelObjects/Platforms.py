@@ -83,31 +83,21 @@ class DisappearingPlatform(Platform):
         else:
             return None
 
-#   <moving_platform position="-3,-3" size="2,2" texture="grass0" start_position="-5,-5" end_position="0,0" speed="-2,-2"/>
-
 
 class MovingPlatform(Platform):
-    def __init__(self, vertices: List[Vector], texture_name: str, start_position: Vector, end_position: Vector,
+    def __init__(self, vertices: List[Vector], texture_name: str, max_time: float,
                  speed: Vector, texture_pos: Vector = Vector(0, 0)):
         super(MovingPlatform, self).__init__(vertices, texture_name, texture_pos)
-        self.start_position = start_position
-        self.end_position = end_position
         self.speed = speed
-        self.forward = True
-
-    def check_boundaries(self):
-        if self.position.x <= self.start_position.x or self.position.y <= self.position.y:
-            self.forward = True
-        elif self.position.x >= self.end_position.x or self.position.y >= self.position.y:
-            self.forward = False
+        self.max_time = max_time
+        self.timer = 0
 
     def update(self, dt):
-        #print(self.position)
-        self.check_boundaries()
-        if self.forward:
-            self.position += self.speed * dt
-            self.collider.move_by(self.speed * dt)
-        else:
-            self.position -= self.speed * dt
-            self.collider.move_by(-self.speed * dt)
-        self._recalc_bounding_box()
+        self.timer += dt
+        if self.timer < self.max_time:
+            self.vertices = [v + self.speed * dt for v in self.vertices]
+            self.texture_pos += self.speed * dt
+            self.collider.pos += self.speed * dt
+            return
+        self.timer = 0
+        self.speed = -self.speed

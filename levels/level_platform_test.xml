@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <level background="sky0" initial_player_pos="1,-5">
+    <platform texture="wall0">
+        <v pos="-22,-10"/>
+        <v pos="-22,2"/>
+        <v pos="-20,2"/>
+        <v pos="-20,-10"/>
+    </platform>
     <platform texture="alien1">
         <v pos="-20,0"/>
         <v pos="-20,2"/>
-        <v pos="80,2"/>
-        <v pos="80,0"/>
+        <v pos="10,2"/>
+        <v pos="10,0"/>
     </platform>
+    <platform texture="alien1">
+        <v pos="10,0"/>
+        <v pos="10,2"/>
+        <v pos="40,2"/>
+        <v pos="40,-4"/>
+    </platform>
+    <moving_platform texture="alien1" time="3.0" speed="5,0">
+        <v pos="40,0"/>
+        <v pos="40,-4"/>
+        <v pos="45,-4"/>
+        <v pos="45,0"/>
+    </moving_platform>
+    <disappearing_platform texture="wall0" time="2.5">
+        <v pos="60,0"/>
+        <v pos="60,-4"/>
+        <v pos="69,-4"/>
+        <v pos="69,-0"/>
+    </disappearing_platform>
+
     <platform texture="wall0">
         <v pos="80,-3"/>
         <v pos="80,2"/>
         <v pos="82,2"/>
         <v pos="82,-3"/>
-    </platform>
-    <platform texture="wall0">
-        <v pos="-22,-3"/>
-        <v pos="-22,2"/>
-        <v pos="-20,2"/>
-        <v pos="-20,-3"/>
     </platform>
     <checkpoint id="1" tele_to="3,-5">
         <v pos = "2,-5" />
@@ -24,17 +43,4 @@
         <v pos = "4,5" />
         <v pos = "2,5" />
     </checkpoint>
-    <checkpoint id="2" tele_to="59,-5">
-        <v pos = "58,-5" />
-        <v pos = "58,5" />
-        <v pos = "60,5" />
-        <v pos = "60,-5" />
-    </checkpoint>
-    <checkpoint id="3" tele_to="73,-5">
-        <v pos = "72,-5" />
-        <v pos = "72,5" />
-        <v pos = "74,5" />
-        <v pos = "74,-5" />
-    </checkpoint>
-
 </level>

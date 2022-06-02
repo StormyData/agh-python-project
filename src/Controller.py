@@ -15,18 +15,18 @@ class Controller:
             return
         pressed = pygame.key.get_pressed()
 
-        if pressed[pygame.K_UP]:
+        if pressed[pygame.K_UP] or pressed[pygame.K_w]:
             self.player.jump()
             # self.player.move(Vector(0, self.player_speed))
             # self.player.move(Vector(0, -self.player_speed * dt))
         # if pressed[pygame.K_DOWN]:
         #     pass
         #     self.player.move(Vector(0, -self.player_speed))
-        if pressed[pygame.K_LEFT]:
+        if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
             if not self.player.facing_left:
                 self.player.flip()
             self.player.move(Vector(self.player_speed, 0))
-        if pressed[pygame.K_RIGHT]:
+        if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
             if self.player.facing_left:
                 self.player.flip()
             self.player.move(Vector(-self.player_speed, 0))
