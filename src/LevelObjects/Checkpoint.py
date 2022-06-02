@@ -6,11 +6,11 @@ from src.Physics import Collider
 
 
 class Checkpoint(LevelObject):
-    def __init__(self, vertices: List[Vector], id: str, tele_to: Vector):
+    def __init__(self, vertices: List[Vector], checkpoint_id: str, tele_to: Vector):
         self.vertices = vertices
         self._recalc_bounding_box()
         super().__init__(self.bounding_box[0])
-        self.id = id
+        self.id = checkpoint_id
         self.collider = Collider(self.vertices)
         self.tele_to = tele_to
 

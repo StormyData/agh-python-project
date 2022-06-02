@@ -57,7 +57,7 @@ def _parse_level(tree: ETree.ElementTree, filename: str) -> Level:
 def _parse_checkpoint(element: ETree.Element) -> Checkpoint:
     fields = {'id': str, 'tele_to': _parse_vector}
     child_nodes = {'v': _parse_platform_vertex}
-    field_renames = {'v': 'vertices'}
+    field_renames = {'v': 'vertices', 'id': "checkpoint_id"}
     return _parse(element, Checkpoint, fields, field_renames, child_nodes=child_nodes)
 
 
@@ -68,7 +68,7 @@ def _parse_changing_size_platform(element: ETree.Element) -> ChangingSizePlatfor
 
     child_nodes = {'v': _parse_platform_vertex}
     defaults = {'texture_pos': Vector(0, 0), 'init_size': 1}
-    return _parse(element, ChangingSizePlatform, fields, field_renames, defaults,child_nodes)
+    return _parse(element, ChangingSizePlatform, fields, field_renames, defaults, child_nodes)
 
 
 def _parse_disappearing_platform(element: ETree.Element) -> DisappearingPlatform:
@@ -139,7 +139,6 @@ def _parse(element: ETree.Element, constructor, fields, field_renames=None, defa
         constructor_dict[field_name] = []
 
     for field in fields:
-        value = None
         if field not in element.attrib:
             if field not in defaults:
                 raise ParseError(f"{constructor.__name__} requires a {field}")

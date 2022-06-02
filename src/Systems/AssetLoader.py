@@ -34,7 +34,6 @@ class AssetLoader:
         self._sound_names_to_paths = dict()
         self._sounds = dict()
 
-
     def load_paths(self, fp: str):
         tree = ETree.parse(fp)
         root = tree.getroot()
@@ -50,8 +49,6 @@ class AssetLoader:
                     self._read_music(child)
                 case "sound":
                     self._read_sound(child)
-                case _:
-                    pass  # ignore
 
     def _read_anim(self, child: ETree.Element):
         if 'name' not in child.attrib:

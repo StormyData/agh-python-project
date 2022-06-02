@@ -5,7 +5,8 @@ from src.Vector import Vector
 
 
 class Level:
-    def __init__(self, objects: [LevelObject], background_texture_name: str, level_name: str, initial_player_pos: Vector):
+    def __init__(self, objects: [LevelObject], background_texture_name: str, level_name: str,
+                 initial_player_pos: Vector):
         self.objects = objects
         self._find_entities(objects)
         self.background_texture_name = background_texture_name
@@ -24,4 +25,3 @@ class Level:
                 game_object.update(dt)
             if isinstance(game_object, Monster):
                 game_object.update(dt)
-

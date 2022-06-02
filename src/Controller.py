@@ -4,24 +4,20 @@ from src.LevelObjects.Entities import Player, Monster
 from src.Vector import Vector
 from src.Systems.SoundEngine import SoundEvent, SoundEngine
 
+
 class Controller:
     player_speed = 512  # px/s/s
 
     def __init__(self, player: Player):
         self.player = player
 
-    def update(self, dt: float):
+    def update(self):
         if not pygame.key.get_focused():
             return
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_UP] or pressed[pygame.K_w]:
             self.player.jump()
-            # self.player.move(Vector(0, self.player_speed))
-            # self.player.move(Vector(0, -self.player_speed * dt))
-        # if pressed[pygame.K_DOWN]:
-        #     pass
-        #     self.player.move(Vector(0, -self.player_speed))
         if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
             if not self.player.facing_left:
                 self.player.flip()
@@ -33,16 +29,13 @@ class Controller:
         if pressed[pygame.K_HOME]:
             SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_GONE_HOME)
             self.player.teleport_to_last_checkpoint()
-        # self.player.update(dt)
 
 
 class MonsterAI:
-    # monster_speed = 512  # px/s/s
-
     def __init__(self, monsters: [Monster]):
         self.monsters = monsters
 
-    def update(self, player_position: Vector, screen_width: int, screen_height: int, dt: float):
+    def update(self, player_position: Vector, screen_width: int, screen_height: int):
         for monster in self.monsters:
             offset = monster.position - player_position + Vector(screen_width, screen_height) * 0.5
             if offset.x > screen_width or offset.x + monster.size.x < 0 or \

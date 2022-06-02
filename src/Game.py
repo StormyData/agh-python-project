@@ -1,3 +1,5 @@
+from typing import Callable
+
 import pygame
 
 from src.Systems.Parser import parse_file
@@ -9,12 +11,14 @@ from src.Vector import Vector
 from src.LevelObjects.Coins import Coins
 from src.LevelObjects.Checkpoint import Checkpoint
 from src.Systems.SoundEngine import SoundEvent, SoundEngine
+
 pygame.init()
 
 
 class Game:
 
     def __init__(self):
+        self.monster_AI = None
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.player = Player(Vector(10, -100), Vector(40, 40), {'idle': 'player_idle', 'walk': 'player_walk'})
         self.controller = Controller(self.player)
@@ -23,6 +27,8 @@ class Game:
     def main(self):
         f = self.main_menu
         args = tuple()
+        f: Callable
+
         while f is not None:
             f, args = f(*args)
 
@@ -54,11 +60,11 @@ class Game:
             dt = clock.tick(60) / 1000
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    return self.escape_panel ,(level, )
+                    return self.escape_panel, (level,)
                 elif event.type == pygame.QUIT:
                     exit(0)
-            self.controller.update(dt)
-            self.monster_AI.update(self.player.position, self.window.get_width(), self.window.get_height(), dt)
+            self.controller.update()
+            self.monster_AI.update(self.player.position, self.window.get_width(), self.window.get_height())
             level.update(dt)
             for game_object in level.objects:
                 if isinstance(game_object, Platform):
@@ -99,7 +105,6 @@ class Game:
                     return self.load_level, (level,)
                 if option == "menu":
                     return self.main_menu, tuple()
-
 
             pygame.display.update()
 

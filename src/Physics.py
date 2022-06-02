@@ -54,7 +54,7 @@ class Collider:
     def __init__(self, vertices: List[Vector]):
         self.pos = Vector(0, 0)
         self.vertices = vertices.copy()
-        self.min_max_arr = None
+        self.min_max_arr: list[(float, float)] = []
         self.min_max_arr_dirty = True
 
     def collides(self, other) -> bool:
@@ -83,9 +83,9 @@ class Collider:
     def move_by(self, distance: Vector) -> None:
         self.pos += distance
 
-    def resetup(self, verices: List[Vector]):
+    def re_setup(self, vertices: List[Vector]):
         self.pos = Vector(0, 0)
-        self.vertices = verices.copy()
+        self.vertices = vertices.copy()
         self.min_max_arr_dirty = True
 
     def _update_pos(self):
@@ -101,9 +101,8 @@ class Collider:
         for i in range(len(self.vertices)):
             axis = (self.vertices[i - 1] - self.vertices[i]).rotate_90_deg_clockwise().normalized()
             vals = [axis.dot(vertex) for vertex in self.vertices]
-            min1 = min(vals)
-            max1 = max(vals)
-            self.min_max_arr[i] = (min1, max1)
+            # noinspection PyTypeChecker
+            self.min_max_arr[i] = (min(vals), max(vals))
 
     def _sat(self, other, flip: bool):
         other: Collider

@@ -49,10 +49,10 @@ class Vector:
         return self.x * other.y - self.y * other.x
 
     def normalized(self):
-        len = self.__abs__()
-        if len < self.eps:
+        length = self.__abs__()
+        if length < self.eps:
             return Vector(0, 0)
-        return self / len
+        return self / length
 
     def as_tuple(self):
         return self.x, self.y
@@ -64,8 +64,8 @@ class Vector:
         return Vector(-self.y, self.x)
 
     @staticmethod
-    def from_tuple(tuple):
-        return Vector(tuple[0], tuple[1])
+    def from_tuple(tuple_val):
+        return Vector(tuple_val[0], tuple_val[1])
 
     def is_between(self, other1, other2):
         if not isinstance(other1, Vector) and not isinstance(other2, Vector):
