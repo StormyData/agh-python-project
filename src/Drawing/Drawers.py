@@ -134,20 +134,6 @@ def draw_checkpoint(checkpoint: Checkpoint, surface: pygame.Surface, offset: Vec
 
 
 def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
-    text_height = 0
-    if draw_speed:
-        text_surface = font.render(f"speed={player.physics.speed}", False, (0, 0, 0))
-        surface.blit(text_surface, (0, text_height))
-        text_height += text_surface.get_height()
-    if draw_checkpoints:
-        if player.final_checkpoint is not None:
-            text_surface = font.render(f"final checkpoint id={player.final_checkpoint.id}", False, (0, 0, 0))
-            surface.blit(text_surface, (0, text_height))
-            text_height += text_surface.get_height()
-    text_surface = font.render(f"score: {player.score}", False, (0, 0, 0))
-    surface.blit(text_surface, (0, text_height))
-    text_height += text_surface.get_height()
-
     if player.curr_anim is not None:
 
         texture, texture_offset = player.curr_anim.get_frame()
@@ -165,3 +151,19 @@ def draw_player(player: Player, surface: pygame.Surface, offset: Vector):
     if draw_collisions:
         collider = player.get_collider()
         pygame.draw.polygon(surface, (255, 0, 0), [(v + offset + collider.pos).as_tuple() for v in collider.vertices])
+
+
+def draw_overlay(surface: pygame.Surface, score: int, time: int, player_speed: Vector):
+    text_height = 0
+    if draw_speed:
+        text_surface = font.render(f"speed={player_speed}", False, (0, 0, 0))
+        surface.blit(text_surface, (0, text_height))
+        text_height += text_surface.get_height()
+
+    text_surface = font.render(f"score: {score}", False, (0, 0, 0))
+    surface.blit(text_surface, (0, text_height))
+    text_height += text_surface.get_height()
+
+    text_surface = font.render(f"time: {float(time)/1000:.2f}", False, (0, 0, 0))
+    surface.blit(text_surface, (0, text_height))
+    text_height += text_surface.get_height()

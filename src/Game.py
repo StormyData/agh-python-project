@@ -2,7 +2,7 @@ from typing import Callable
 
 import pygame
 
-from .Drawing.Drawers import draw_level, draw_player, draw_fps
+from .Drawing.Drawers import draw_level, draw_player, draw_fps, draw_overlay
 from .Drawing.GUI import draw_menu, draw_escape_panel, draw_winning_panel
 from .LevelObjects.Checkpoint import WalkInArea, Checkpoint, FinalCheckpoint
 from .LevelObjects.Coins import Coins
@@ -23,6 +23,7 @@ class Game:
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.player = Player(Vector(10, -100), Vector(40, 40), {'idle': 'player_idle', 'walk': 'player_walk'})
         self.controller = Controller(self.player)
+        self.time = 0
         self.main()
 
     def main(self):
@@ -47,18 +48,21 @@ class Game:
 
     def load_level(self, level, reset=True):
         if reset:
+            self.time = 0
             SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_LEVEL)
             self.player.set_position(level.initial_player_pos)
             self.player.score_reset()
         else:
             SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_RESUMED_LEVEL)
         clock = pygame.time.Clock()
+        game_timer = pygame.time.Clock()
         self.monster_AI = MonsterAI(level.entities)
         run = True
         while run:
             dt = clock.tick(60) / 1000
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.time += game_timer.tick()
                     return self.escape_panel, (level,)
                 elif event.type == pygame.QUIT:
                     exit(0)
@@ -80,8 +84,8 @@ class Game:
                         for monster in level.entities:
                             monster.calc_collision(game_object.get_collider())
                     elif isinstance(game_object, FinalCheckpoint) and res:
-                        return self.winning_panel, (self.player.score, level,)
-
+                        return self.winning_panel, (self.player.score, level, self.time + game_timer.tick())
+            self.time += game_timer.tick()
             self.player.update(dt)
             offset = -self.player.position + Vector.from_tuple(self.window.get_size()) * 0.5
             self.window.fill((0, 0, 0))
@@ -89,6 +93,7 @@ class Game:
             draw_player(self.player, self.window, offset)
             fps = 1.0 / dt if dt != 0 else 0.0
             draw_fps(self.window, fps)
+            draw_overlay(self.window, self.player.score, self.time, self.player.physics.speed)
 
             pygame.display.update()
 
@@ -112,11 +117,11 @@ class Game:
 
         return
 
-    def winning_panel(self, score, curr_level):
+    def winning_panel(self, score, curr_level, time_taken):
         SoundEngine.get_singleton().send_event(SoundEvent.SCREEN_ENTERED_ESCAPE_PANEL)
         run = True
         while run:
-            option = draw_winning_panel(self.window, score)
+            option = draw_winning_panel(self.window, score, time_taken)
             if option is not None:
                 if option == "retry":
                     level = parse_file(curr_level.level_name)

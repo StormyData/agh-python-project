@@ -82,7 +82,7 @@ def draw_escape_panel(surface: pygame.Surface):
                 return "menu"
 
 
-def draw_winning_panel(surface: pygame.Surface, score):
+def draw_winning_panel(surface: pygame.Surface, score, time_taken):
     surface.fill((0, 0, 0))
     background = AssetLoader.get_singleton().get_image("alien2")
     width = surface.get_width()
@@ -96,14 +96,19 @@ def draw_winning_panel(surface: pygame.Surface, score):
     win_rect = win_name.get_rect(center=(width / 2, 300))
     surface.blit(win_name, win_rect)
 
-    win_name = pygame.font.Font("assets/alien_font.ttf", 50).render("YOUR SCORE:\t\t" + str(score), True, "#ACF5B3")
+    win_name = pygame.font.Font("assets/alien_font.ttf", 50).render(f"YOUR SCORE:\t\t {score}", True, "#ACF5B3")
     win_rect = win_name.get_rect(center=(width / 2, 400))
     surface.blit(win_name, win_rect)
 
+    win_name = pygame.font.Font("assets/alien_font.ttf", 50).render(f"YOUR TIME:\t\t {float(time_taken)/1000:.2f}", True, "#ACF5B3")
+    win_rect = win_name.get_rect(center=(width / 2, 600))
+    surface.blit(win_name, win_rect)
+
     button_texture = AssetLoader.get_singleton().get_image("alien1")
-    retry_button = Button(button_texture, Vector(width / 2, 600),
+
+    retry_button = Button(button_texture, Vector(width / 2, 800),
                           "PLAY AGAIN", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
-    menu_button = Button(button_texture, Vector(width / 2, 700),
+    menu_button = Button(button_texture, Vector(width / 2, 900),
                          "MAIN MENU", "assets/alien_font.ttf", 50, "#d7fcd4", "White")
 
     for button in [retry_button, menu_button]:
