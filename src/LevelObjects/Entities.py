@@ -6,8 +6,8 @@ from src.Vector import Vector, get_sized_box
 from src.LevelObjects.Checkpoint import Checkpoint
 from src.Systems.SoundEngine import SoundEvent, SoundEngine
 
-class Entity(LevelObject):
 
+class Entity(LevelObject):
     jump_force = Vector(0, 20000)
     gravity = Vector(0, -500)
 
@@ -43,7 +43,6 @@ class Entity(LevelObject):
         if delta_coll.y < 0:
             self.on_ground = True
         self.physics.add_collision_vector(delta_coll)
-        # print(delta_coll)
 
     def get_collider(self) -> Collider:
         return self.collider
@@ -69,14 +68,14 @@ class Monster(Entity):
 
 
 class Player(Entity):
-    def __init__(self, position: Vector, size: Vector, anims: dict[str, str]):
+    def __init__(self, position: Vector, size: Vector, animations: dict[str, str]):
         super().__init__(position, size, "")
         self.facing_left = True
         self.last_checkpoint: Checkpoint | None = None
-        self.anims = dict()
-        for anim in anims:
-            self.anims[anim] = Animation(AssetLoader.get_singleton().get_animation_buffer(anims[anim]))
-        self.curr_anim = self.anims['idle']
+        self.animations = dict()
+        for anim in animations:
+            self.animations[anim] = Animation(AssetLoader.get_singleton().get_animation_buffer(animations[anim]))
+        self.curr_anim = self.animations['idle']
         self.curr_anim: Animation | None
         self.last_last_on_ground = False
 
@@ -92,14 +91,14 @@ class Player(Entity):
             else:
                 SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_OFF_GROUND)
         if abs(self.physics.speed.x) > 0.1:
-            if self.curr_anim != self.anims['walk']:
-                self.curr_anim = self.anims['walk']
+            if self.curr_anim != self.animations['walk']:
+                self.curr_anim = self.animations['walk']
                 SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_STARTED_MOVING)
                 self.curr_anim.reset()
         else:
-            if self.curr_anim != self.anims['idle']:
+            if self.curr_anim != self.animations['idle']:
                 SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_STOPPED_MOVING)
-                self.curr_anim = self.anims['idle']
+                self.curr_anim = self.animations['idle']
                 self.curr_anim.reset()
         self.curr_anim.update(dt)
 
@@ -107,7 +106,6 @@ class Player(Entity):
         if self.last_checkpoint != checkpoint:
             self.last_checkpoint = checkpoint
             SoundEngine.get_singleton().send_event(SoundEvent.PLAYER_CHECKPOINT_SET)
-    #            print(f"set new checkpoint {checkpoint}")
 
     def teleport_to_last_checkpoint(self):
         if self.last_checkpoint is None:

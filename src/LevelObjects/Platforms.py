@@ -2,7 +2,7 @@ from typing import List
 
 from src.LevelObjects.LevelObject import LevelObject
 from src.Physics import Collider
-from src.Vector import Vector, get_sized_box
+from src.Vector import Vector
 
 
 class Platform(LevelObject):
@@ -37,7 +37,7 @@ class ChangingSizePlatform(Platform):
                  speed: float, texture_pos: Vector = Vector(0, 0)):
         super(ChangingSizePlatform, self).__init__(vertices, texture_name, texture_pos)
         self.center = sum(vertices, Vector(0, 0)) / len(vertices)
-        self.base_vertices = [(v-self.center) / init_size for v in vertices]
+        self.base_vertices = [(v - self.center) / init_size for v in vertices]
         self.base_texture_pos = (texture_pos - self.center) / init_size
         self.size = init_size
         self.max_size = max_size
@@ -58,7 +58,7 @@ class ChangingSizePlatform(Platform):
             ds *= -1
         self.size += ds
         self.vertices = [self.size * v + self.center for v in self.base_vertices]
-        self.collider.resetup(self.vertices)
+        self.collider.re_setup(self.vertices)
         self._recalc_bounding_box()
 
 

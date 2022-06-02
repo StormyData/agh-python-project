@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 from src.Vector import Vector
 
+
 @dataclass
 class AnimationFrame:
     def __init__(self, img: Surface | str, length: float, offset: Vector):
@@ -27,7 +28,7 @@ class Animation:
         self.on_loop = on_loop
 
     def get_frame(self) -> (Surface, Vector):
-        return self.buffer.frames[self.frame_no].img , self.buffer.frames[self.frame_no].offset
+        return self.buffer.frames[self.frame_no].img, self.buffer.frames[self.frame_no].offset
 
     def update(self, dt: float) -> None:
         self.timer += dt
@@ -38,6 +39,7 @@ class Animation:
                 self.frame_no = 0
                 if self.on_loop is not None:
                     self.on_loop()
+
     def reset(self):
         self.timer = 0
         self.frame_no = 0
