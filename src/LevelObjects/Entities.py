@@ -4,7 +4,7 @@ from src.Physics import Physics, Collider
 from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector, get_sized_box
 from src.LevelObjects.Checkpoint import Checkpoint
-
+from src.Systems.SoundEngine import SOUND_EVENT, SoundEngine
 
 class Entity(LevelObject):
 
@@ -87,9 +87,11 @@ class Player(Entity):
         if abs(self.physics.speed.x) > 0.1:
             if self.curr_anim != self.anims['walk']:
                 self.curr_anim = self.anims['walk']
+                SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_STARTED_MOVING)
                 self.curr_anim.reset()
         else:
             if self.curr_anim != self.anims['idle']:
+                SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_STOPPED_MOVING)
                 self.curr_anim = self.anims['idle']
                 self.curr_anim.reset()
         self.curr_anim.update(dt)
@@ -97,7 +99,8 @@ class Player(Entity):
     def set_last_checkpoint(self, checkpoint):
         if self.last_checkpoint != checkpoint:
             self.last_checkpoint = checkpoint
-#            print(f"set new checkpoint {checkpoint}")
+            SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_CHECKPOINT_SET)
+    #            print(f"set new checkpoint {checkpoint}")
 
     def teleport_to_last_checkpoint(self):
         if self.last_checkpoint is None:
@@ -106,5 +109,6 @@ class Player(Entity):
 
     def calc_collision_monster(self, collider: Collider):
         if self.collider.collides(collider):
+            SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_DIED)
             self.teleport_to_last_checkpoint()
 

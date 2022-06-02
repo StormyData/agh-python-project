@@ -2,7 +2,7 @@ import pygame
 
 from src.LevelObjects.Entities import Player, Monster
 from src.Vector import Vector
-
+from src.Systems.SoundEngine import SOUND_EVENT, SoundEngine
 
 class Controller:
     player_speed = 512  # px/s/s
@@ -31,6 +31,7 @@ class Controller:
                 self.player.flip()
             self.player.move(Vector(-self.player_speed, 0))
         if pressed[pygame.K_HOME]:
+            SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_GONE_HOME)
             self.player.teleport_to_last_checkpoint()
         # self.player.update(dt)
 
