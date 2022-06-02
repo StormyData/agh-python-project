@@ -100,8 +100,9 @@ class Collider:
         self.min_max_arr = [None] * len(self.vertices)
         for i in range(len(self.vertices)):
             axis = (self.vertices[i - 1] - self.vertices[i]).rotate_90_deg_clockwise().normalized()
-            min1 = min(axis.dot(vertex) for vertex in self.vertices)
-            max1 = max(axis.dot(vertex) for vertex in self.vertices)
+            vals = [axis.dot(vertex) for vertex in self.vertices]
+            min1 = min(vals)
+            max1 = max(vals)
             self.min_max_arr[i] = (min1, max1)
 
     def _sat(self, other, flip: bool):
@@ -112,12 +113,13 @@ class Collider:
         shortest_dist = float('inf')
         for i in range(len(self.vertices)):
             axis = (self.vertices[i - 1] - self.vertices[i]).rotate_90_deg_clockwise().normalized()
-            min1 = min(axis.dot(vertex) for vertex in other.vertices)
-            max1 = max(axis.dot(vertex) for vertex in other.vertices)
+            vals = [axis.dot(vertex) for vertex in other.vertices]
+            min1 = min(vals)
+            max1 = max(vals)
             if self.min_max_arr[i][0] > max1 or min1 > self.min_max_arr[i][1]:
                 result.collides = False
                 return result
-            dist = self.min_max_arr[i][0] - max1
+            dist = min(self.min_max_arr[i][0] - max1, self.min_max_arr[i][1] - min1, key=lambda x: abs(x))
             if flip:
                 dist *= -1
             if abs(dist) < shortest_dist:

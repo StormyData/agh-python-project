@@ -47,6 +47,20 @@ class ColliderTestCase(unittest.TestCase):
         self.assertEqual(expected3, b.collide_offset(c), f"incorrect offset for {b} and {c}")
         self.assertEqual(expected3, c.collide_offset(b), f"incorrect offset for {c} and {b}")
 
+    def test_collider_slanted(self):
+        a = Collider([Vector(0,0), Vector(4,0), Vector(4,4), Vector(0,2)])
+        b = Collider([Vector(0, 3) + v for v in get_sized_box(Vector(3, 1))])
+        expected = Vector(-0.2, 0.4)
+        calculated = b.collide_offset(a)
+        self.assertAlmostEqual(expected.x, calculated.x, msg=f"expected={expected}, calculated={calculated}")
+        self.assertAlmostEqual(expected.y, calculated.y, msg=f"expected={expected}, calculated={calculated}")
+
+        a = Collider(list(reversed([Vector(0, 0), Vector(4, 0), Vector(4, 4), Vector(0, 2)])))
+        calculated = b.collide_offset(a)
+        self.assertAlmostEqual(expected.x, calculated.x, msg=f"expected={expected}, calculated={calculated}")
+        self.assertAlmostEqual(expected.y, calculated.y, msg=f"expected={expected}, calculated={calculated}")
+
+
 
 if __name__ == '__main__':
     unittest.main()
