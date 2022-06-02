@@ -77,6 +77,8 @@ class Game:
                     game_object.check_collision(self.player)
                 elif isinstance(game_object, Checkpoint):
                     game_object.check_collision(self.player)
+                    for monster in level.entities:
+                        monster.calc_collision(game_object.get_collider())
 
             self.player.update(dt)
             offset = -self.player.position + Vector.from_tuple(self.window.get_size()) * 0.5

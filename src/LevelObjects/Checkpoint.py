@@ -18,6 +18,9 @@ class Checkpoint(LevelObject):
         if self.collider.collides(player.get_collider()):
             player.set_last_checkpoint(self)
 
+    def get_collider(self):
+        return self.collider
+
     def get_tele_to_pos(self):
         return self.tele_to
 
