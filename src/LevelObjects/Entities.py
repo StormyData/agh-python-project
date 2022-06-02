@@ -112,3 +112,7 @@ class Player(Entity):
             SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_DIED)
             self.teleport_to_last_checkpoint()
 
+    def jump(self):
+        super().jump()
+        if self.last_on_ground:
+            SoundEngine.get_singleton().send_event(SOUND_EVENT.PLAYER_JUMPED)

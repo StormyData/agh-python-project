@@ -26,4 +26,12 @@
         <img path="assets/alien_green/green__0010_walk_5.png" len="0.25"/>
         <img path="assets/alien_green/green__0011_walk_6.png" len="0.25"/>
     </anim>
+    <music name="level" path="assets/song18.mp3" from="https://opengameart.org/content/crystal-cave-song18"/>
+    <music name="main_menu" path="assets/мистичная тема.mp3" from="https://opengameart.org/content/mystical-theme"/>
+    <sound name="jump_landed" path="assets/sounds/jumpland.wav" from="https://opengameart.org/content/jump-landing-sound"/>
+    <sound name="player_died" path="assets/sounds/steam hisses - Marker #1.wav" from="https://opengameart.org/content/steam-release-sounds"/>
+    <sound name="coin_picked_up" path="assets/sounds/Rise02.ogg" from="https://opengameart.org/content/level-up-power-up-coin-get-13-sounds"/>
+    <sound name="player_gone_home" path="assets/sounds/Upper01.ogg" from="https://opengameart.org/content/level-up-power-up-coin-get-13-sounds"/>
+    <sound name="player_jumped" path="assets/sounds/jump_11.wav" from="https://opengameart.org/content/platformer-jumping-sounds"/>
+    <sound name="checkpoint_set" path="assets/sounds/coin02.ogg" from="https://opengameart.org/content/soundpack-04"/>
 </assets>

@@ -1,6 +1,8 @@
 from enum import Enum, auto, unique
-
-
+import pygame.mixer
+import logging
+from src.Systems.AssetLoader import AssetLoader
+from io import BytesIO
 @unique
 class SOUND_EVENT(Enum):
     PLAYER_STARTED_MOVING = auto()
@@ -24,26 +26,37 @@ class SoundEngine:
             SoundEngine._instance = SoundEngine()
         return SoundEngine._instance
 
+    def __init__(self):
+        pygame.mixer.init()
+        pygame.mixer.set_num_channels(16)
+        pass
+
     def send_event(self, event: SOUND_EVENT):
         match event:
             case SOUND_EVENT.PLAYER_CHECKPOINT_SET:
-                print("playing checkpoint set sound")
+                SoundEngine._get_sound("checkpoint_set").play()
             case SOUND_EVENT.PLAYER_DIED:
-                print("playing player died sound")
+                SoundEngine._get_sound("player_died").play()
             case SOUND_EVENT.PLAYER_JUMPED:
-                print("playing player jumped sound")
+                SoundEngine._get_sound("player_jumped").play()
             case SOUND_EVENT.PLAYER_STARTED_MOVING:
-                print("starting playing player moving")
+                logging.getLogger().debug("starting playing player moving")
             case SOUND_EVENT.PLAYER_STOPPED_MOVING:
-                print("stopping playing player moving")
+                logging.getLogger().debug("stopping playing player moving")
             case SOUND_EVENT.PLAYER_GONE_HOME:
-                print("playing player gone home sound")
+                SoundEngine._get_sound("player_gone_home").play()
 
             case SOUND_EVENT.SCREEN_ENTERED_MENU:
-                print("starting menu music")
+                pygame.mixer.music.load(AssetLoader.get_singleton().get_music_path("main_menu"))
+                pygame.mixer.music.play(loops=-1)
             case SOUND_EVENT.SCREEN_RESUMED_LEVEL:
-                print("resuming level music")
+                pygame.mixer.music.unpause()
             case SOUND_EVENT.SCREEN_ENTERED_LEVEL:
-                print("starting level music")
+                pygame.mixer.music.load(AssetLoader.get_singleton().get_music_path("level"))
+                pygame.mixer.music.play(loops=-1)
             case SOUND_EVENT.SCREEN_ENTERED_ESCAPE_PANEL:
-                print("pausing level music")
+                pygame.mixer.music.pause()
+    @staticmethod
+    def _get_sound(name: str) -> pygame.mixer.Sound:
+        with BytesIO(AssetLoader.get_singleton().get_sound_buffer(name)) as f:
+            return pygame.mixer.Sound(f)
