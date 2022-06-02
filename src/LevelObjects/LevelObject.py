@@ -1,4 +1,4 @@
-from src.Vector import Vector
+from ..Vector import Vector
 
 
 class LevelObject:

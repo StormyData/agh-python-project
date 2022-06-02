@@ -1,7 +1,7 @@
-from src.LevelObjects.LevelObject import LevelObject
-from src.LevelObjects.Platforms import Platform
-from src.LevelObjects.Entities import Monster
-from src.Vector import Vector
+from .LevelObjects.Entities import Monster
+from .LevelObjects.LevelObject import LevelObject
+from .LevelObjects.Platforms import Platform
+from .Vector import Vector
 
 
 class Level:

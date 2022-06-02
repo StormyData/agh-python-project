@@ -1,6 +1,7 @@
 import pygame
-from src.Vector import Vector
 from pygame import Surface
+
+from .Vector import Vector
 
 
 class Button:

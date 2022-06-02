@@ -2,8 +2,8 @@ import xml.etree.ElementTree as ETree
 
 from pygame import Surface, image
 
-from src.Drawing.Animation import AnimationBuffer, AnimationFrame
-from src.Vector import Vector
+from ..Drawing.Animation import AnimationBuffer, AnimationFrame
+from ..Vector import Vector
 
 
 def _parse_vector(val: str) -> Vector:

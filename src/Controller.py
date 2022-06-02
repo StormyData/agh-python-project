@@ -1,8 +1,8 @@
 import pygame
 
-from src.LevelObjects.Entities import Player, Monster
-from src.Vector import Vector
-from src.Systems.SoundEngine import SoundEvent, SoundEngine
+from .LevelObjects.Entities import Player, Monster
+from .Systems.SoundEngine import SoundEvent, SoundEngine
+from .Vector import Vector
 
 
 class Controller:

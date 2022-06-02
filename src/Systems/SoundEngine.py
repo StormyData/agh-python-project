@@ -1,7 +1,9 @@
 from enum import Enum, auto, unique
-import pygame.mixer
-from src.Systems.AssetLoader import AssetLoader
 from io import BytesIO
+
+import pygame.mixer
+
+from .AssetLoader import AssetLoader
 
 
 # noinspection PyArgumentList

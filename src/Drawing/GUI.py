@@ -1,11 +1,12 @@
+import sys
+
 import pygame
 import pygame.gfxdraw
 import pygame.transform
-import sys
 
-from src.Button import Button
-from src.Systems.AssetLoader import AssetLoader
-from src.Vector import Vector
+from ..Systems.AssetLoader import AssetLoader
+from ..Button import Button
+from ..Vector import Vector
 
 
 def draw_menu(surface: pygame.Surface):

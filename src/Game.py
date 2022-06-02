@@ -2,16 +2,16 @@ from typing import Callable
 
 import pygame
 
-from src.Systems.Parser import parse_file
-from src.Controller import Controller, MonsterAI
-from src.Drawing.Drawers import draw_level, draw_player, draw_fps
-from src.Drawing.GUI import draw_menu, draw_escape_panel
-from src.LevelObjects.Entities import Player, Monster
-from src.LevelObjects.Platforms import Platform
-from src.Vector import Vector
-from src.LevelObjects.Coins import Coins
-from src.LevelObjects.Checkpoint import Checkpoint
-from src.Systems.SoundEngine import SoundEvent, SoundEngine
+from .Drawing.Drawers import draw_level, draw_player, draw_fps
+from .Drawing.GUI import draw_menu, draw_escape_panel
+from .LevelObjects.Checkpoint import Checkpoint
+from .LevelObjects.Coins import Coins
+from .LevelObjects.Entities import Player, Monster
+from .LevelObjects.Platforms import Platform
+from .Systems.Parser import parse_file
+from .Systems.SoundEngine import SoundEvent, SoundEngine
+from .Controller import Controller, MonsterAI
+from .Vector import Vector
 
 pygame.init()
 

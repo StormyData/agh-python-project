@@ -1,12 +1,10 @@
-from typing import List
-
-from src.LevelObjects.LevelObject import LevelObject
-from src.Physics import Collider
-from src.Vector import Vector
+from .LevelObject import LevelObject
+from ..Physics import Collider
+from ..Vector import Vector
 
 
 class Platform(LevelObject):
-    def __init__(self, vertices: List[Vector], texture_name: str, texture_pos: Vector = Vector(0, 0)):
+    def __init__(self, vertices: list[Vector], texture_name: str, texture_pos: Vector = Vector(0, 0)):
         self.vertices = vertices
         self.texture_name = texture_name
         self.texture_pos = texture_pos
@@ -33,7 +31,7 @@ class Platform(LevelObject):
 
 
 class ChangingSizePlatform(Platform):
-    def __init__(self, vertices: List[Vector], init_size: float, texture_name: str, max_size: float, min_size: float,
+    def __init__(self, vertices: list[Vector], init_size: float, texture_name: str, max_size: float, min_size: float,
                  speed: float, texture_pos: Vector = Vector(0, 0)):
         super(ChangingSizePlatform, self).__init__(vertices, texture_name, texture_pos)
         self.center = sum(vertices, Vector(0, 0)) / len(vertices)
@@ -63,7 +61,7 @@ class ChangingSizePlatform(Platform):
 
 
 class DisappearingPlatform(Platform):
-    def __init__(self, vertices: List[Vector], texture_name: str, max_time: float,
+    def __init__(self, vertices: list[Vector], texture_name: str, max_time: float,
                  texture_pos: Vector = Vector(0, 0)):
         super(DisappearingPlatform, self).__init__(vertices, texture_name, texture_pos)
         self.max_time = max_time
@@ -85,7 +83,7 @@ class DisappearingPlatform(Platform):
 
 
 class MovingPlatform(Platform):
-    def __init__(self, vertices: List[Vector], texture_name: str, max_time: float,
+    def __init__(self, vertices: list[Vector], texture_name: str, max_time: float,
                  speed: Vector, texture_pos: Vector = Vector(0, 0)):
         super(MovingPlatform, self).__init__(vertices, texture_name, texture_pos)
         self.speed = speed

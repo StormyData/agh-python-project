@@ -2,15 +2,14 @@ import pygame
 import pygame.gfxdraw
 import pygame.transform
 
-from src.Level import Level
-from src.LevelObjects.Checkpoint import Checkpoint
-from src.LevelObjects.Coins import Coins
-from src.LevelObjects.Entities import Monster
-from src.LevelObjects.Entities import Player
-from src.LevelObjects.LevelObject import LevelObject
-from src.LevelObjects.Platforms import Platform, DisappearingPlatform, ChangingSizePlatform
-from src.Systems.AssetLoader import AssetLoader
-from src.Vector import Vector
+from ..LevelObjects.Checkpoint import Checkpoint
+from ..LevelObjects.Coins import Coins
+from ..LevelObjects.Entities import Monster, Player
+from ..LevelObjects.LevelObject import LevelObject
+from ..LevelObjects.Platforms import Platform, DisappearingPlatform, ChangingSizePlatform
+from ..Systems.AssetLoader import AssetLoader
+from ..Level import Level
+from ..Vector import Vector
 
 draw_collisions = False
 draw_speed = False

@@ -1,7 +1,7 @@
-from src.LevelObjects.LevelObject import LevelObject
-from src.Vector import Vector, get_sized_box
-from src.Physics import Collider
-from src.Systems.SoundEngine import SoundEvent, SoundEngine
+from .LevelObject import LevelObject
+from ..Systems.SoundEngine import SoundEvent, SoundEngine
+from ..Physics import Collider
+from ..Vector import Vector, get_sized_box
 
 
 class Coins(LevelObject):

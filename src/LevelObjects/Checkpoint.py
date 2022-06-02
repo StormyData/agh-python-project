@@ -1,12 +1,10 @@
-from typing import List
-
-from src.LevelObjects.LevelObject import LevelObject
-from src.Vector import Vector
-from src.Physics import Collider
+from .LevelObject import LevelObject
+from ..Physics import Collider
+from ..Vector import Vector
 
 
 class Checkpoint(LevelObject):
-    def __init__(self, vertices: List[Vector], checkpoint_id: str, tele_to: Vector):
+    def __init__(self, vertices: list[Vector], checkpoint_id: str, tele_to: Vector):
         self.vertices = vertices
         self._recalc_bounding_box()
         super().__init__(self.bounding_box[0])

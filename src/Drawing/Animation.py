@@ -1,9 +1,8 @@
-from typing import List
-
-from pygame import Surface
 from dataclasses import dataclass
 
-from src.Vector import Vector
+from pygame import Surface
+
+from ..Vector import Vector
 
 
 @dataclass
@@ -16,7 +15,7 @@ class AnimationFrame:
 
 @dataclass
 class AnimationBuffer:
-    def __init__(self, frames: List[AnimationFrame]):
+    def __init__(self, frames: list[AnimationFrame]):
         self.frames = frames
 
 

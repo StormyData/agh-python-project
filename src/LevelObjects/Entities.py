@@ -1,10 +1,10 @@
-from src.Drawing.Animation import Animation
-from src.LevelObjects.LevelObject import LevelObject
-from src.Physics import Physics, Collider
-from src.Systems.AssetLoader import AssetLoader
-from src.Vector import Vector, get_sized_box
-from src.LevelObjects.Checkpoint import Checkpoint
-from src.Systems.SoundEngine import SoundEvent, SoundEngine
+from ..Drawing.Animation import Animation
+from .Checkpoint import Checkpoint
+from .LevelObject import LevelObject
+from ..Systems.AssetLoader import AssetLoader
+from ..Systems.SoundEngine import SoundEvent, SoundEngine
+from ..Physics import Physics, Collider
+from ..Vector import Vector, get_sized_box
 
 
 class Entity(LevelObject):

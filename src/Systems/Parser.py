@@ -1,11 +1,11 @@
 import xml.etree.ElementTree as ETree
 
-from src.Level import Level
-from src.LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
-from src.LevelObjects.Checkpoint import Checkpoint
-from src.LevelObjects.Entities import Monster
-from src.LevelObjects.Coins import Coins
-from src.Vector import Vector
+from ..Level import Level
+from ..LevelObjects.Checkpoint import Checkpoint
+from ..LevelObjects.Coins import Coins
+from ..LevelObjects.Entities import Monster
+from ..LevelObjects.Platforms import Platform, MovingPlatform, DisappearingPlatform, ChangingSizePlatform
+from ..Vector import Vector
 
 vector_scale = 16
 
