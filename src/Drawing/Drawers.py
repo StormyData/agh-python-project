@@ -6,7 +6,7 @@ from src.Button import Button
 from src.Level import Level
 from src.LevelObjects.Entities import Entity, Player
 from src.LevelObjects.LevelObject import LevelObject
-from src.LevelObjects.Platforms import Platform, DisappearingPlatform, ChangingSizePlatform
+from src.LevelObjects.Platforms import Platform, DisappearingPlatform, ChangingSizePlatform, MovingPlatform
 from src.Systems.AssetLoader import AssetLoader
 from src.Vector import Vector
 from src.LevelObjects.Checkpoint import Checkpoint

@@ -96,8 +96,8 @@ class MovingPlatform(Platform):
         self.timer += dt
         if self.timer < self.max_time:
             self.vertices = [v + self.speed * dt for v in self.vertices]
-            self.texture_pos += self.speed * dt
-            self.collider.pos += self.speed * dt
+            self.collider.move_by(self.speed * dt)
+            self._recalc_bounding_box()
             return
         self.timer = 0
         self.speed = -self.speed
